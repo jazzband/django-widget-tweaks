@@ -32,9 +32,14 @@ def append_attr(field, attr):
     return _process_field_attributes(field, attr, process)
 
 @register.filter
+def add_class(field, css_class):
+    return append_attr(field, 'class:'+ css_class)
+
+@register.filter
 def set_data(field, data):
     return set_attr(field, 'data-' + data)
 
 @register.filter
-def add_class(field, css_class):
-    return append_attr(field, 'class:'+ css_class)
+def behave(field, names):
+    ''' https://github.com/anutron/behavior support '''
+    return set_data(field, 'filters:'+names)
