@@ -28,7 +28,8 @@ def set_attr(field, attr):
 @register.filter
 def append_attr(field, attr):
     def process(attrs, attribute, value):
-        attrs[attribute] = ' '.join([attrs.get(attribute, ''), value])
+        new_attrs = filter(None, [attrs.get(attribute, ''), value])
+        attrs[attribute] = ' '.join(new_attrs)
     return _process_field_attributes(field, attr, process)
 
 @register.filter
