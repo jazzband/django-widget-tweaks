@@ -11,8 +11,8 @@ def _process_field_attributes(field, attr, process):
     # decorate field.as_widget method with updated attributes
     old_as_widget = field.as_widget
     def as_widget(self, widget=None, attrs=None, only_initial=False):
-        attrs = attrs or getattr(widget or self.field.widget, 'attrs', {})
-        process(attrs, attribute, value)
+        attrs = attrs or {}
+        process(widget or self.field.widget, attrs, attribute, value)
         return old_as_widget(widget, attrs, only_initial)
 
     bound_method = type(old_as_widget)
@@ -21,15 +21,19 @@ def _process_field_attributes(field, attr, process):
 
 @register.filter('attr')
 def set_attr(field, attr):
-    def process(attrs, attribute, value):
+    def process(widget, attrs, attribute, value):
         attrs[attribute] = value
     return _process_field_attributes(field, attr, process)
 
 @register.filter
 def append_attr(field, attr):
-    def process(attrs, attribute, value):
-        new_attrs = filter(None, [attrs.get(attribute, ''), value])
-        attrs[attribute] = ' '.join(new_attrs)
+    def process(widget, attrs, attribute, value):
+        if attrs.get(attribute):
+            attrs[attribute] += ' ' + value
+        elif widget.attrs.get(attribute):
+            attrs[attribute] = widget.attrs[attribute] + ' ' + value
+        else:
+            attrs[attribute] = value
     return _process_field_attributes(field, attr, process)
 
 @register.filter
