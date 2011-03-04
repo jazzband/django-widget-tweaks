@@ -24,6 +24,7 @@ Thumbs.db
 #setup files
 build/
 dist/
+django_widget_tweaks.egg-info
 MANIFEST
 
 #my files
