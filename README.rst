@@ -82,8 +82,22 @@ Example::
     <!-- add 2 extra css classes to field element -->
     {{ form.title|append_attr:"class:css_class_1 css_class_2" }}
 
-`add_class` filter is just a shortcut for 'append_attr' filter that
+'add_class' filter is just a shortcut for 'append_attr' filter that
 adds values to the 'class' attribute.
+
+add_error_class
+---------------
+
+The same as 'add_class' but adds css class only if validation failed for
+the field (field.errors is not empty). 
+
+Example::
+
+    {% load widget_tweaks %}
+
+    <!-- add 'error-border' css class on field error -->
+    {{ form.title|add_error_class:"error-border" }}
+
 
 Contributing
 ============

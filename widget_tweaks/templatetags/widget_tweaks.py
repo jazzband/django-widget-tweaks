@@ -41,6 +41,12 @@ def add_class(field, css_class):
     return append_attr(field, 'class:'+ css_class)
 
 @register.filter
+def add_error_class(field, css_class):
+    if hasattr(field, 'errors') and field.errors:
+        return add_class(field, css_class)
+    return field
+
+@register.filter
 def set_data(field, data):
     return set_attr(field, 'data-' + data)
 
