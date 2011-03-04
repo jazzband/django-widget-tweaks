@@ -5,7 +5,7 @@ for cmd in 'egg_info', 'develop':
     if cmd in sys.argv:
         from setuptools import setup
 
-version='0.2.1'
+version='0.3'
 
 setup(
     name = 'django-widget-tweaks',
@@ -23,7 +23,7 @@ setup(
     packages=['widget_tweaks', 'widget_tweaks.templatetags'],
 
     classifiers=[
-        'Development Status :: 3 - Alpha',
+        'Development Status :: 4 - Beta',
         'Framework :: Django',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
