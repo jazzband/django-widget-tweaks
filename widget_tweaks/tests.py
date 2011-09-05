@@ -2,6 +2,8 @@ from django.test import TestCase
 from django.forms import Form, CharField, TextInput
 from django import forms
 from django.template import Template, Context
+from django.forms.extras.widgets import SelectDateWidget
+
 
 class MyForm(Form):
     simple = CharField()
@@ -10,6 +12,8 @@ class MyForm(Form):
                     'egg': 'spam'
                  }))
     with_cls = CharField(widget=TextInput(attrs={'class':'class0'}))
+    date = forms.DateField(widget=SelectDateWidget(attrs={'egg': 'spam'}))
+
 
 def render_field(field, filter, params, *args):
     filters = [(filter, params)]
@@ -61,6 +65,11 @@ class CustomizedWidgetTest(TestCase):
         assertIn('foo="bar"', res)
         assertNotIn('foo="baz"', res)
         assertIn('egg="spam"', res)
+
+    def test_selectdatewidget(self):
+        res = render_field('date', 'attr', 'foo:bar')
+        assertIn('egg="spam"', res)
+        assertIn('foo="bar"', res)
 
     def test_attr_chaining(self):
         res = render_field('with_attrs', 'attr', 'foo:bar', 'attr', 'bar:baz')
