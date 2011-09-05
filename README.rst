@@ -89,7 +89,7 @@ add_error_class
 ---------------
 
 The same as 'add_class' but adds css class only if validation failed for
-the field (field.errors is not empty). 
+the field (field.errors is not empty).
 
 Example::
 

@@ -1,5 +1,2 @@
 include *.txt
 include *.rst
-
-recursive-include easy_maps *.html
-recursive-include easy_maps_tests *.html *.py
