@@ -27,7 +27,10 @@ def _process_field_attributes(field, attr, process):
         return old_as_widget(widget, attrs, only_initial)
 
     bound_method = type(old_as_widget)
-    field.as_widget = bound_method(as_widget, field, field.__class__)
+    try:
+        field.as_widget = bound_method(as_widget, field, field.__class__)
+    except TypeError: # python 3
+        field.as_widget = bound_method(as_widget, field)
     return field
 
 
