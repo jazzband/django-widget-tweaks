@@ -16,6 +16,7 @@ MANIFEST.MF
 *.orig
 *~
 stuff/
+*.swp
 
 #os files
 .DS_Store
@@ -29,3 +30,5 @@ MANIFEST
 
 #my files
 db.sqlite
+*.log
+

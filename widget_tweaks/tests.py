@@ -59,6 +59,12 @@ class SimpleAttrTest(TestCase):
         res = render_field('simple', 'add_class', 'foo', 'add_class', 'bar')
         assertIn('class="bar foo"', res)
 
+    def test_silence_without_field(self):
+        res = render_field("nothing", 'attr', 'foo:bar')
+        self.assertEquals(res, "")
+        res = render_field("nothing", 'add_class', 'some')
+        self.assertEquals(res, "")
+
 class CustomizedWidgetTest(TestCase):
     def test_attr(self):
         res = render_field('with_attrs', 'attr', 'foo:bar')

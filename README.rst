@@ -108,3 +108,12 @@ do not hesitate to contact me, fire an issue or send a pull request.
 Source code: https://bitbucket.org/kmike/django-widget-tweaks/
 
 Bug tracker: https://bitbucket.org/kmike/django-widget-tweaks/issues/new
+
+running the tests
+-----------------
+
+::
+
+    export DJANGO_SETTINGS_MODULE=settings
+    django-admin.py test widget_tweaks
+

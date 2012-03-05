@@ -1,6 +1,16 @@
 from django.template import Library
 register = Library()
 
+
+def silence_without_field(fn):
+    def wrapped(field, attr):
+        if not field:
+            return ""
+        else:
+            return fn(field, attr)
+    return wrapped
+
+
 def _process_field_attributes(field, attr, process):
 
     # split attribute name and value from 'attr:value' string
@@ -10,6 +20,7 @@ def _process_field_attributes(field, attr, process):
 
     # decorate field.as_widget method with updated attributes
     old_as_widget = field.as_widget
+
     def as_widget(self, widget=None, attrs=None, only_initial=False):
         attrs = attrs or {}
         process(widget or self.field.widget, attrs, attribute, value)
@@ -19,13 +30,19 @@ def _process_field_attributes(field, attr, process):
     field.as_widget = bound_method(as_widget, field, field.__class__)
     return field
 
-@register.filter('attr')
+
+@register.filter("attr")
+@silence_without_field
 def set_attr(field, attr):
+
     def process(widget, attrs, attribute, value):
         attrs[attribute] = value
+
     return _process_field_attributes(field, attr, process)
 
-@register.filter
+
+@register.filter("append_attr")
+@silence_without_field
 def append_attr(field, attr):
     def process(widget, attrs, attribute, value):
         if attrs.get(attribute):
@@ -36,21 +53,32 @@ def append_attr(field, attr):
             attrs[attribute] = value
     return _process_field_attributes(field, attr, process)
 
-@register.filter
-def add_class(field, css_class):
-    return append_attr(field, 'class:'+ css_class)
 
-@register.filter
+@register.filter("add_class")
+@silence_without_field
+def add_class(field, css_class):
+    return append_attr(field, 'class:' + css_class)
+
+
+@register.filter("add_error_class")
+@silence_without_field
 def add_error_class(field, css_class):
     if hasattr(field, 'errors') and field.errors:
         return add_class(field, css_class)
     return field
 
-@register.filter
+
+@register.filter("set_data")
+@silence_without_field
 def set_data(field, data):
     return set_attr(field, 'data-' + data)
 
-@register.filter
+
+@register.filter("behave")
+@silence_without_field
 def behave(field, names):
     ''' https://github.com/anutron/behavior support '''
-    return set_data(field, 'filters:'+names)
+    return set_data(field, 'filters:' + names)
+
+
+
