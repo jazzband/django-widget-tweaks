@@ -1,3 +1,9 @@
+try:
+    from django.utils.unittest import expectedFailure
+except ImportError:
+    def expectedFailure(func):
+        return lambda *args, **kwargs: None
+
 from django.test import TestCase
 from django.forms import Form, CharField, TextInput
 from django import forms
@@ -72,6 +78,8 @@ class CustomizedWidgetTest(TestCase):
         assertNotIn('foo="baz"', res)
         assertIn('egg="spam"', res)
 
+    # see https://code.djangoproject.com/ticket/16754
+    @expectedFailure
     def test_selectdatewidget(self):
         res = render_field('date', 'attr', 'foo:bar')
         assertIn('egg="spam"', res)

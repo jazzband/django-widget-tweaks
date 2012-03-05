@@ -17,6 +17,7 @@ MANIFEST.MF
 *~
 stuff/
 *.swp
+.tox/
 
 #os files
 .DS_Store

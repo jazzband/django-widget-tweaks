@@ -105,15 +105,20 @@ Contributing
 If you've found a bug, implemented a feature or have a suggestion,
 do not hesitate to contact me, fire an issue or send a pull request.
 
-Source code: https://bitbucket.org/kmike/django-widget-tweaks/
+Source code:
+
+* https://bitbucket.org/kmike/django-widget-tweaks/
+* https://github.com/kmike/django-widget-tweaks/
 
 Bug tracker: https://bitbucket.org/kmike/django-widget-tweaks/issues/new
 
 running the tests
 -----------------
 
+Make sure you have `tox <http://tox.testrun.org/>`_ installed, then type
+
 ::
 
-    export DJANGO_SETTINGS_MODULE=settings
-    django-admin.py test widget_tweaks
+    tox
 
+from the source checkout.

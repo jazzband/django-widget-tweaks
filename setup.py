@@ -18,7 +18,7 @@ setup(
     description = 'Tweak the form field rendering in templates, not in python-level form definitions.',
     long_description = open('README.rst').read(),
     license = 'MIT license',
-    requires = ['django'],
+    requires = ['django (>= 1.2)'],
 
     packages=['widget_tweaks', 'widget_tweaks.templatetags'],
 
