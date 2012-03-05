@@ -20,16 +20,18 @@ class MyForm(Form):
     with_cls = CharField(widget=TextInput(attrs={'class':'class0'}))
     date = forms.DateField(widget=SelectDateWidget(attrs={'egg': 'spam'}))
 
+def render_form(text):
+    tpl = Template("{% load widget_tweaks %}" + text)
+    context = Context({'form': MyForm()})
+    return tpl.render(context)
+
 
 def render_field(field, filter, params, *args):
     filters = [(filter, params)]
     filters.extend(zip(args[::2], args[1::2]))
     filter_strings = ['|%s:"%s"' % (f[0], f[1],) for f in filters]
     render_field_str = '{{ form.%s%s }}' % (field, ''.join(filter_strings))
-
-    tpl = Template("{% load widget_tweaks %}" + render_field_str)
-    context = Context({'form': MyForm()})
-    return tpl.render(context)
+    return render_form(render_field_str)
 
 def assertIn(value, obj):
     assert value in obj, "%s not in %s" % (value, obj,)
@@ -65,6 +67,7 @@ class SimpleAttrTest(TestCase):
         res = render_field('simple', 'add_class', 'foo', 'add_class', 'bar')
         assertIn('class="bar foo"', res)
 
+class SilenceTest(TestCase):
     def test_silence_without_field(self):
         res = render_field("nothing", 'attr', 'foo:bar')
         self.assertEquals(res, "")
@@ -112,3 +115,20 @@ class CustomizedWidgetTest(TestCase):
         assertIn('class0', res)
         assertIn('class1', res)
         assertIn('class2', res)
+
+
+class FieldReuseTest(TestCase):
+
+    def test_field_double_rendering_simple(self):
+        res = render_form('{{ form.simple }}{{ form.simple|attr:"foo:bar" }}{{ form.simple }}')
+        self.assertEqual(res.count("bar"), 1)
+
+    def test_field_double_rendering_simple_css(self):
+        res = render_form('{{ form.simple }}{{ form.simple|add_class:"bar" }}{{ form.simple|add_class:"baz" }}')
+        self.assertEqual(res.count("baz"), 1)
+        self.assertEqual(res.count("bar"), 1)
+
+    def test_field_double_rendering_attrs(self):
+        res = render_form('{{ form.with_cls }}{{ form.with_cls|add_class:"bar" }}{{ form.with_cls }}')
+        self.assertEqual(res.count("class0"), 3)
+        self.assertEqual(res.count("bar"), 1)
