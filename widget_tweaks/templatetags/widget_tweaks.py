@@ -75,13 +75,3 @@ def add_error_class(field, css_class):
 @silence_without_field
 def set_data(field, data):
     return set_attr(field, 'data-' + data)
-
-
-@register.filter("behave")
-@silence_without_field
-def behave(field, names):
-    ''' https://github.com/anutron/behavior support '''
-    return set_data(field, 'filters:' + names)
-
-
-
