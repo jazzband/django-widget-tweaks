@@ -5,7 +5,7 @@ for cmd in 'egg_info', 'develop':
     if cmd in sys.argv:
         from setuptools import setup
 
-version='0.3'
+version='1.0'
 
 setup(
     name = 'django-widget-tweaks',
@@ -13,17 +13,16 @@ setup(
     author = 'Mikhail Korobov',
     author_email = 'kmike84@gmail.com',
     url = 'http://bitbucket.org/kmike/django-widget-tweaks/',
-    download_url = 'http://bitbucket.org/kmike/django-widget-tweaks/get/tip.zip',
 
     description = 'Tweak the form field rendering in templates, not in python-level form definitions.',
-    long_description = open('README.rst').read(),
+    long_description = open('README.rst').read() + open('CHANGES.rst').read(),
     license = 'MIT license',
     requires = ['django (>= 1.2)'],
 
     packages=['widget_tweaks', 'widget_tweaks.templatetags'],
 
     classifiers=[
-        'Development Status :: 4 - Beta',
+        'Development Status :: 5 - Production/Stable',
         'Framework :: Django',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: MIT License',
