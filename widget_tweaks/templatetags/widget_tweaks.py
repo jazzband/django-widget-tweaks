@@ -1,4 +1,5 @@
-from django.template import Library
+import re
+from django.template import Library, Node, Variable
 register = Library()
 
 
@@ -75,3 +76,54 @@ def add_error_class(field, css_class):
 @silence_without_field
 def set_data(field, data):
     return set_attr(field, 'data-' + data)
+
+
+@register.tag
+def render_field(parser, token):
+    """
+    Render a form field using given attribute-value pairs
+
+    Takes form field as first argument and list of attribute-value pairs for
+    all other arguments.  Attribute-value pairs should be in the form of
+    attribute=value or attribute="a value" for assignment and attribute+=value
+    or attribute+="value" for appending.
+    """
+    error_msg = '%r tag requires a form field followed by a list of attributes and values in the form attr="value"' % token.split_contents()[0]
+    try:
+        bits = token.split_contents()
+        tag_name = bits[0]
+        form_field = bits[1]
+        attr_list = bits[2:]
+    except ValueError:
+        raise template.TemplateSyntaxError(error_msg)
+
+    form_field = parser.compile_filter(form_field)
+
+    set_attrs = []
+    append_attrs = []
+    for pair in attr_list:
+        match = m = re.match(r'(\w+)(\+?=)"?([^"]*)"?', pair)
+        if not match:
+            raise template.TemplateSyntaxError(error_msg + ": %s" % pair)
+        attr, sign, value = match.groups()
+        if sign == "=":
+            set_attrs.append((attr, value))
+        else:
+            append_attrs.append((attr, value))
+
+    return FieldAttributeNode(form_field, set_attrs, append_attrs)
+
+
+class FieldAttributeNode(Node):
+    def __init__(self, field, set_attrs, append_attrs):
+        self.field = field
+        self.set_attrs = set_attrs
+        self.append_attrs = append_attrs
+
+    def render(self, context):
+        bounded_field = self.field.resolve(context)
+        for k, v in self.set_attrs:
+            bounded_field = set_attr(bounded_field, '%s:%s' % (k,v))
+        for k, v in self.append_attrs:
+            bounded_field = append_attr(bounded_field, '%s:%s' % (k,v))
+        return bounded_field
