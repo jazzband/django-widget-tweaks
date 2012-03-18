@@ -98,6 +98,26 @@ Example::
     <!-- add 'error-border' css class on field error -->
     {{ form.title|add_error_class:"error-border" }}
 
+render_field
+------------
+
+This is a template tag that can be used as an alternative to aforementioned
+filters.  This template tag renders a field using a syntax similar to plain
+HTML attributes.
+
+Example::
+
+    {% load widget_tweaks %}
+
+    <!-- change input type (e.g. to HTML5) -->
+    {% render_field form.search_query type="search" %}
+
+    <!-- add/change several attributes -->
+    {% render_field form.text rows="20" cols="20" title="Hello, world!" %}
+
+    <!-- append to an attribute -->
+    {% render_field form.title class+="css_class_1 css_class_2" %}
+
 
 Contributing
 ============
