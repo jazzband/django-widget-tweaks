@@ -1,3 +1,4 @@
+import string
 try:
     from django.utils.unittest import expectedFailure
 except ImportError:
@@ -35,8 +36,8 @@ def render_field(field, filter, params, *args):
 
 def render_field_from_tag(field, *attributes):
     attr_strings = [' %s' % f for f in attributes]
-    render_field_str = '{{% render_field form.{0}{1} %}}'.format(
-            field, ''.join(attr_strings))
+    tpl = string.Template('{% render_field form.$field$attrs %}')
+    render_field_str = tpl.substitute(field=field, attrs=''.join(attr_strings))
     return render_form(render_field_str)
 
 def assertIn(value, obj):
