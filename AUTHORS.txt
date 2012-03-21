@@ -4,4 +4,4 @@ Authors
 * Mikhail Korobov <kmike84@gmail.com>
 * Anonymous
 * Skylar Saveland <skylar.saveland@gmail.com>
-
+* Trey Hunner (http://treyhunner.com)
