@@ -33,6 +33,12 @@ def render_field(field, filter, params, *args):
     render_field_str = '{{ form.%s%s }}' % (field, ''.join(filter_strings))
     return render_form(render_field_str)
 
+def render_field_from_tag(field, *attributes):
+    attr_strings = [' %s' % f for f in attributes]
+    render_field_str = '{{% render_field form.{0}{1} %}}'.format(
+            field, ''.join(attr_strings))
+    return render_form(render_field_str)
+
 def assertIn(value, obj):
     assert value in obj, "%s not in %s" % (value, obj,)
 
@@ -130,5 +136,89 @@ class FieldReuseTest(TestCase):
 
     def test_field_double_rendering_attrs(self):
         res = render_form('{{ form.with_cls }}{{ form.with_cls|add_class:"bar" }}{{ form.with_cls }}')
+        self.assertEqual(res.count("class0"), 3)
+        self.assertEqual(res.count("bar"), 1)
+
+
+class SimpleRenderFieldTagTest(TestCase):
+    def test_attr(self):
+        res = render_field_from_tag('simple', 'foo="bar"')
+        assertIn('type="text"', res)
+        assertIn('name="simple"', res)
+        assertIn('id="id_simple"', res)
+        assertIn('foo="bar"', res)
+
+    def test_multiple_attrs(self):
+        res = render_field_from_tag('simple', 'foo="bar"', 'bar="baz"')
+        assertIn('type="text"', res)
+        assertIn('name="simple"', res)
+        assertIn('id="id_simple"', res)
+        assertIn('foo="bar"', res)
+        assertIn('bar="baz"', res)
+
+
+class RenderFieldTagSilenceTest(TestCase):
+    def test_silence_without_field(self):
+        res = render_field_from_tag("nothing", 'foo="bar"')
+        self.assertEquals(res, "")
+        res = render_field_from_tag("nothing", 'class+="some"')
+        self.assertEquals(res, "")
+
+
+class RenderFieldTagCustomizedWidgetTest(TestCase):
+    def test_attr(self):
+        res = render_field_from_tag('with_attrs', 'foo="bar"')
+        assertIn('foo="bar"', res)
+        assertNotIn('foo="baz"', res)
+        assertIn('egg="spam"', res)
+
+    # see https://code.djangoproject.com/ticket/16754
+    @expectedFailure
+    def test_selectdatewidget(self):
+        res = render_field_from_tag('date', 'foo="bar"')
+        assertIn('egg="spam"', res)
+        assertIn('foo="bar"', res)
+
+    def test_multiple_attrs(self):
+        res = render_field_from_tag('with_attrs', 'foo="bar"', 'bar="baz"')
+        assertIn('foo="bar"', res)
+        assertNotIn('foo="baz"', res)
+        assertIn('egg="spam"', res)
+        assertIn('bar="baz"', res)
+
+    def test_attr_class(self):
+        res = render_field_from_tag('with_cls', 'foo="bar"')
+        assertIn('foo="bar"', res)
+        assertIn('class="class0"', res)
+
+    def test_default_attr(self):
+        res = render_field_from_tag('with_cls', 'type="search"')
+        assertIn('class="class0"', res)
+        assertIn('type="search"', res)
+
+    def test_append_attr(self):
+        res = render_field_from_tag('with_cls', 'class+="class1"')
+        assertIn('class0', res)
+        assertIn('class1', res)
+
+    def test_duplicate_append_attr(self):
+        res = render_field_from_tag('with_cls', 'class+="class1"', 'class+="class2"')
+        assertIn('class0', res)
+        assertIn('class1', res)
+        assertIn('class2', res)
+
+
+class RenderFieldTagFieldReuseTest(TestCase):
+    def test_field_double_rendering_simple(self):
+        res = render_form('{{ form.simple }}{% render_field form.simple foo="bar" %}{% render_field form.simple %}')
+        self.assertEqual(res.count("bar"), 1)
+
+    def test_field_double_rendering_simple_css(self):
+        res = render_form('{% render_field form.simple %}{% render_field form.simple class+="bar" %}{% render_field form.simple class+="baz" %}')
+        self.assertEqual(res.count("baz"), 1)
+        self.assertEqual(res.count("bar"), 1)
+
+    def test_field_double_rendering_attrs(self):
+        res = render_form('{% render_field form.with_cls %}{% render_field form.with_cls class+="bar" %}{% render_field form.with_cls %}')
         self.assertEqual(res.count("class0"), 3)
         self.assertEqual(res.count("bar"), 1)
