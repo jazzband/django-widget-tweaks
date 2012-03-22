@@ -2,6 +2,11 @@
 Changes
 =======
 
+1.1.1 (2012-03-22)
+------------------
+
+* some issues with ``render_field`` tag are fixed.
+
 1.1 (2012-03-22)
 ----------------
 
