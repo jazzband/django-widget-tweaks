@@ -208,6 +208,11 @@ class RenderFieldTagCustomizedWidgetTest(TestCase):
         assertIn('class1', res)
         assertIn('class2', res)
 
+    def test_hyphenated_attributes(self):
+        res = render_field_from_tag('with_cls', 'data-foo="bar"')
+        assertIn('data-foo="bar"', res)
+        assertIn('class="class0"', res)
+
 
 class RenderFieldTagFieldReuseTest(TestCase):
     def test_field_double_rendering_simple(self):

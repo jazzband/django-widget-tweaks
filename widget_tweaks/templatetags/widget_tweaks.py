@@ -1,5 +1,5 @@
 import re
-from django.template import Library, Node, Variable
+from django.template import Library, Node, Variable, TemplateSyntaxError
 register = Library()
 
 
@@ -78,6 +78,20 @@ def set_data(field, data):
     return set_attr(field, 'data-' + data)
 
 
+ATTRIBUTE_RE = re.compile(r"""
+    (?P<attr>
+        [\w_-]+
+    )
+    (?P<sign>
+        \+?=
+    )
+    ['"]? # start quote
+    (?P<value>
+        [^"']*
+    )
+    ['"]? # end quote
+""", re.VERBOSE | re.UNICODE)
+
 @register.tag
 def render_field(parser, token):
     """
@@ -95,17 +109,18 @@ def render_field(parser, token):
         form_field = bits[1]
         attr_list = bits[2:]
     except ValueError:
-        raise template.TemplateSyntaxError(error_msg)
+        raise TemplateSyntaxError(error_msg)
 
     form_field = parser.compile_filter(form_field)
 
     set_attrs = []
     append_attrs = []
     for pair in attr_list:
-        match = m = re.match(r'(\w+)(\+?=)"?([^"]*)"?', pair)
+        match = ATTRIBUTE_RE.match(pair)
         if not match:
-            raise template.TemplateSyntaxError(error_msg + ": %s" % pair)
-        attr, sign, value = match.groups()
+            raise TemplateSyntaxError(error_msg + ": %s" % pair)
+        dct = match.groupdict()
+        attr, sign, value = dct['attr'], dct['sign'], dct['value']
         if sign == "=":
             set_attrs.append((attr, value))
         else:
