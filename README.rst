@@ -121,7 +121,26 @@ Example::
     <!-- append to an attribute -->
     {% render_field form.title class+="css_class_1 css_class_2" %}
 
+field_type widget_type
+----------------------
 
+Tags for get field type and field widget type.
+
+Example::
+
+    <div class="field {{ field|field_type }} {{ field|widget_type }}
+                {{ field.html_name }}">
+        {{ field }}
+    </div>
+    
+    Out:
+    
+    <div class="field charfield textinput 
+                name">
+        <input id="id_name" type="text" name="name" maxlength="100" />
+    </div>
+
+ 
 Contributing
 ============
 
