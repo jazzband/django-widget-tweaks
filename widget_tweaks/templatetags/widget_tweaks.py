@@ -145,14 +145,14 @@ class FieldAttributeNode(Node):
         return bounded_field
 
 """
-Use:
-    <div class="field {{ field|field_type }} {{ field|widget_type }} {{ field.html_name }}">
-        {{ field }}
-    </div>
-Out:
-    <div class="field charfield textinput name">
-        <input id="id_name" type="text" name="name" maxlength="100" />
-    </div>
+    Use:
+        <div class="field {{ field|field_type }} {{ field|widget_type }} {{ field.html_name }}">
+            {{ field }}
+        </div>
+    Out:
+        <div class="field charfield textinput name">
+            <input id="id_name" type="text" name="name" maxlength="100" />
+        </div>
 """
 
 @register.filter(name='field_type')
