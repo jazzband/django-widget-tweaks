@@ -150,7 +150,7 @@ Use:
         {{ field }}
     </div>
 Out:
-    <div class="field charfield textinput family_name">
+    <div class="field charfield textinput name">
         <input id="id_name" type="text" name="name" maxlength="100" />
     </div>
 """
