@@ -2,6 +2,11 @@
 Changes
 =======
 
+1.1.2 (2012-06-03)
+------------------
+
+* add support template varible in ``render_field`` tag.
+
 1.1.1 (2012-03-22)
 ------------------
 
