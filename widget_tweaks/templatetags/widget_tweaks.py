@@ -143,3 +143,11 @@ class FieldAttributeNode(Node):
         for k, v in self.append_attrs:
             bounded_field = append_attr(bounded_field, '%s:%s' % (k,v.resolve(context)))
         return bounded_field
+
+@register.filter(name='field_type')
+def field_type(value):
+    return value.field.__class__.__name__.lower()
+
+@register.filter(name='widget_type')
+def widget_type(value):
+    return value.field.widget.__class__.__name__.lower()
