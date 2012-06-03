@@ -77,6 +77,7 @@ def add_error_class(field, css_class):
 def set_data(field, data):
     return set_attr(field, 'data-' + data)
 
+# render_field tag
 
 ATTRIBUTE_RE = re.compile(r"""
     (?P<attr>
@@ -85,11 +86,11 @@ ATTRIBUTE_RE = re.compile(r"""
     (?P<sign>
         \+?=
     )
-    ['"]? # start quote
     (?P<value>
+    ['"]? # start quote
         [^"']*
-    )
     ['"]? # end quote
+    )
 """, re.VERBOSE | re.UNICODE)
 
 @register.tag
@@ -120,7 +121,7 @@ def render_field(parser, token):
         if not match:
             raise TemplateSyntaxError(error_msg + ": %s" % pair)
         dct = match.groupdict()
-        attr, sign, value = dct['attr'], dct['sign'], dct['value']
+        attr, sign, value = dct['attr'], dct['sign'], parser.compile_filter(dct['value'])
         if sign == "=":
             set_attrs.append((attr, value))
         else:
@@ -138,7 +139,7 @@ class FieldAttributeNode(Node):
     def render(self, context):
         bounded_field = self.field.resolve(context)
         for k, v in self.set_attrs:
-            bounded_field = set_attr(bounded_field, '%s:%s' % (k,v))
+            bounded_field = set_attr(bounded_field, '%s:%s' % (k,v.resolve(context)))
         for k, v in self.append_attrs:
-            bounded_field = append_attr(bounded_field, '%s:%s' % (k,v))
+            bounded_field = append_attr(bounded_field, '%s:%s' % (k,v.resolve(context)))
         return bounded_field
