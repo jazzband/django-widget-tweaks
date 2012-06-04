@@ -124,7 +124,7 @@ Example::
 field_type widget_type
 ----------------------
 
-Tags for get field type and field widget type.
+Tags for get field class name and field widget class name in lower case.
 
 Example::
 

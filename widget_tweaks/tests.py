@@ -228,3 +228,14 @@ class RenderFieldTagFieldReuseTest(TestCase):
         res = render_form('{% render_field form.with_cls %}{% render_field form.with_cls class+="bar" %}{% render_field form.with_cls %}')
         self.assertEqual(res.count("class0"), 3)
         self.assertEqual(res.count("bar"), 1)
+        
+class RenderFieldTagUseTemplateVariableTest(TestCase):
+    def test_use_template_variable_in_parametrs(self):
+        res = render_form('{% render_field form.with_attrs egg+="pahaz" placeholder=form.with_attrs.label %}')
+        assertIn('egg="spam pahaz"', res)
+        assertIn('placeholder="With attrs"', res)
+        
+class RenderFieldFilter_field_type_widget_type_Test(TestCase):
+    def test_field_type_widget_type_rendering_simple(self):
+        res = render_form('<div class="{{ form.simple|field_type }} {{ form.simple|widget_type }} {{ form.simple.html_name }}">{{ form.simple }}</div>')
+        assertIn('class="charfield textinput simple"', res)
