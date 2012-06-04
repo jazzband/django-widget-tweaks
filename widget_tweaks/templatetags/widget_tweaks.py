@@ -77,6 +77,7 @@ def add_error_class(field, css_class):
 def set_data(field, data):
     return set_attr(field, 'data-' + data)
 
+# render_field tag
 
 ATTRIBUTE_RE = re.compile(r"""
     (?P<attr>
@@ -85,11 +86,11 @@ ATTRIBUTE_RE = re.compile(r"""
     (?P<sign>
         \+?=
     )
-    ['"]? # start quote
     (?P<value>
+    ['"]? # start quote
         [^"']*
-    )
     ['"]? # end quote
+    )
 """, re.VERBOSE | re.UNICODE)
 
 @register.tag
@@ -120,7 +121,7 @@ def render_field(parser, token):
         if not match:
             raise TemplateSyntaxError(error_msg + ": %s" % pair)
         dct = match.groupdict()
-        attr, sign, value = dct['attr'], dct['sign'], dct['value']
+        attr, sign, value = dct['attr'], dct['sign'], parser.compile_filter(dct['value'])
         if sign == "=":
             set_attrs.append((attr, value))
         else:
@@ -138,7 +139,30 @@ class FieldAttributeNode(Node):
     def render(self, context):
         bounded_field = self.field.resolve(context)
         for k, v in self.set_attrs:
-            bounded_field = set_attr(bounded_field, '%s:%s' % (k,v))
+            bounded_field = set_attr(bounded_field, '%s:%s' % (k,v.resolve(context)))
         for k, v in self.append_attrs:
-            bounded_field = append_attr(bounded_field, '%s:%s' % (k,v))
+            bounded_field = append_attr(bounded_field, '%s:%s' % (k,v.resolve(context)))
         return bounded_field
+
+"""
+    Use:
+        <div class="field {{ field|field_type }} {{ field|widget_type }} {{ field.html_name }}">
+            {{ field }}
+        </div>
+    Out:
+        <div class="field charfield textinput name">
+            <input id="id_name" type="text" name="name" maxlength="100" />
+        </div>
+"""
+
+@register.filter(name='field_type')
+def field_type(field):
+    if hasattr(field, 'field') and field.field:
+        return field.field.__class__.__name__.lower()
+    return ''
+
+@register.filter(name='widget_type')
+def widget_type(field):
+    if hasattr(field, 'field') and hasattr(field.field, 'widget') and field.field.widget:
+        return field.field.widget.__class__.__name__.lower()
+    return ''

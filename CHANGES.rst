@@ -2,6 +2,12 @@
 Changes
 =======
 
+1.1.2 (2012-06-03)
+------------------
+
+* add support template varible in ``render_field`` tag.
+* add ``field_type`` and ``widget_type`` filters.
+
 1.1.1 (2012-03-22)
 ------------------
 

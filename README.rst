@@ -114,11 +114,33 @@ Example::
 
     <!-- add/change several attributes -->
     {% render_field form.text rows="20" cols="20" title="Hello, world!" %}
+    
+    <!-- add/change several attributes with use template variable -->
+    {% render_field form.text placeholder=form.text.label %}
 
     <!-- append to an attribute -->
     {% render_field form.title class+="css_class_1 css_class_2" %}
 
+field_type widget_type
+----------------------
 
+Tags for get field class name and field widget class name in lower case.
+
+Example::
+
+    <div class="field {{ field|field_type }} {{ field|widget_type }}
+                {{ field.html_name }}">
+        {{ field }}
+    </div>
+    
+    Out:
+    
+    <div class="field charfield textinput 
+                name">
+        <input id="id_name" type="text" name="name" maxlength="100" />
+    </div>
+
+ 
 Contributing
 ============
 
