@@ -142,6 +142,38 @@ Output::
         <input id="id_name" type="text" name="name" maxlength="100" />
     </div>
 
+Filter chaining
+===============
+
+The order django-widget-tweaks filters apply may seem counter-intuitive
+(leftmost filter wins)::
+
+    {{ form.simple|attr:"foo:bar"|attr:"foo:baz" }}
+
+returns::
+
+    <input foo="bar" type="text" name="simple" id="id_simple" />
+
+It is not a bug, it is a feature that enables creating reusable templates
+with overridable defaults.
+
+Reusable field template example::
+
+    {# inc/field.html #}
+    {% load widget_tweaks %}
+    <div>{{ field|attr:"foo:default_foo" }}</div>
+
+Example usage::
+
+    {# my_template.html #}
+    {% load widget_tweaks %}
+    <form method='POST' action=''> {% csrf_token %}
+        {% include "inc/field.html" with field=form.title %}
+        {% include "inc/field.html" with field=form.description|attr:"foo:non_default_foo" %}
+    </form>
+
+With 'rightmost filter wins' rule it wouldn't be possible to override
+``|attr:"foo:default_foo"`` in main template.
 
 Contributing
 ============
