@@ -2,11 +2,11 @@
 Changes
 =======
 
-1.1.2 (2012-06-03)
+1.1.2 (2012-06-06)
 ------------------
 
-* add support template varible in ``render_field`` tag.
-* add ``field_type`` and ``widget_type`` filters.
+* support for template variables is added to ``render_field`` tag;
+* new ``field_type`` and ``widget_type`` filters.
 
 1.1.1 (2012-03-22)
 ------------------

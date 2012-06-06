@@ -144,25 +144,24 @@ class FieldAttributeNode(Node):
             bounded_field = append_attr(bounded_field, '%s:%s' % (k,v.resolve(context)))
         return bounded_field
 
-"""
-    Use:
-        <div class="field {{ field|field_type }} {{ field|widget_type }} {{ field.html_name }}">
-            {{ field }}
-        </div>
-    Out:
-        <div class="field charfield textinput name">
-            <input id="id_name" type="text" name="name" maxlength="100" />
-        </div>
-"""
-
 @register.filter(name='field_type')
 def field_type(field):
+    """
+    Template filter that returns field class name (in lower case).
+    E.g. if field is CharField then {{ field|field_type }} will
+    return 'charfield'.
+    """
     if hasattr(field, 'field') and field.field:
         return field.field.__class__.__name__.lower()
     return ''
 
 @register.filter(name='widget_type')
 def widget_type(field):
+    """
+    Template filter that returns field widget class name (in lower case).
+    E.g. if field's widget is TextInput then {{ field|widget_type }} will
+    return 'textinput'.
+    """
     if hasattr(field, 'field') and hasattr(field.field, 'widget') and field.field.widget:
         return field.field.widget.__class__.__name__.lower()
     return ''
