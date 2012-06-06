@@ -115,11 +115,12 @@ Example::
     <!-- add/change several attributes -->
     {% render_field form.text rows="20" cols="20" title="Hello, world!" %}
 
-    <!-- add/change several attributes with use template variable -->
-    {% render_field form.text placeholder=form.text.label %}
-
     <!-- append to an attribute -->
     {% render_field form.title class+="css_class_1 css_class_2" %}
+
+    <!-- template variables can be used as attribute values -->
+    {% render_field form.text placeholder=form.text.label %}
+
 
 field_type and widget_type
 --------------------------
