@@ -32,4 +32,4 @@ MANIFEST
 #my files
 db.sqlite
 *.log
-
+.idea
