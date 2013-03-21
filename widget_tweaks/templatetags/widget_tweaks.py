@@ -45,6 +45,14 @@ def set_attr(field, attr):
     return _process_field_attributes(field, attr, process)
 
 
+@register.filter("add_error_attr")
+@silence_without_field
+def add_error_attr(field, attr):
+    if hasattr(field, 'errors') and field.errors:
+        return set_attr(field, attr)
+    return field
+
+
 @register.filter("append_attr")
 @silence_without_field
 def append_attr(field, attr):
