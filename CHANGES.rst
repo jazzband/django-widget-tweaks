@@ -2,6 +2,12 @@
 Changes
 =======
 
+1.2 (2013-03-23)
+----------------
+
+* new ``add_error_attr`` template filter;
+* testing improvements.
+
 1.1.2 (2012-06-06)
 ------------------
 
