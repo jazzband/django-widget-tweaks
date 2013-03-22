@@ -98,6 +98,21 @@ Example::
     <!-- add 'error-border' css class on field error -->
     {{ form.title|add_error_class:"error-border" }}
 
+
+add_error_attr
+--------------
+
+The same as 'attr' but sets an attribute only if validation failed for
+the field (field.errors is not empty). This can be useful when dealing
+with accessibility::
+
+    {% load widget_tweaks %}
+
+    <!-- add aria-invalid="true" attribute on field error -->
+    {{ form.title|add_error_attr:"aria-invalid:true" }}
+
+
+
 render_field
 ------------
 
