@@ -15,7 +15,7 @@ setup(
     url = 'https://bitbucket.org/kmike/django-widget-tweaks/',
 
     description = 'Tweak the form field rendering in templates, not in python-level form definitions.',
-    long_description = open('README.rst').read() + open('CHANGES.rst').read(),
+    long_description = open('README.rst').read() + "\n\n" + open('CHANGES.rst').read(),
     license = 'MIT license',
     requires = ['django (>= 1.2)'],
 
@@ -33,6 +33,7 @@ setup(
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.2',
+        'Programming Language :: Python :: 3.3',
         'Topic :: Software Development :: Libraries :: Python Modules'
     ],
 )
