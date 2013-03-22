@@ -11,40 +11,75 @@ from django import forms
 from django.template import Template, Context
 from django.forms.extras.widgets import SelectDateWidget
 
+# ==============================
+#       Testing helpers
+# ==============================
 
 class MyForm(Form):
+    """
+    Test form. If you want to test rendering of a field,
+    add it to this form and use one of 'render_...' functions
+    from this module.
+    """
     simple = CharField()
     with_attrs = CharField(widget=TextInput(attrs={
-                    'foo':'baz',
+                    'foo': 'baz',
                     'egg': 'spam'
                  }))
     with_cls = CharField(widget=TextInput(attrs={'class':'class0'}))
     date = forms.DateField(widget=SelectDateWidget(attrs={'egg': 'spam'}))
 
-def render_form(text):
+
+def render_form(text, form=None):
+    """
+    Renders template ``text`` with widget_tweaks library loaded
+    and MyForm instance available in context as ``form``.
+    """
     tpl = Template("{% load widget_tweaks %}" + text)
-    context = Context({'form': MyForm()})
+    context = Context({'form': MyForm() if form is None else form})
     return tpl.render(context)
 
 
-def render_field(field, filter, params, *args):
-    filters = [(filter, params)]
+def render_field(field, template_filter, params, *args, **kwargs):
+    """
+    Renders ``field`` of MyForm with filter ``template_filter`` applied.
+    ``params`` are filter arguments.
+
+    If you want to apply several filters (in a chain),
+    pass extra ``template_filter`` and ``params`` as positional arguments.
+
+    In order to use custom form, pass form instance as ``form``
+    keyword argument.
+    """
+    filters = [(template_filter, params)]
     filters.extend(zip(args[::2], args[1::2]))
     filter_strings = ['|%s:"%s"' % (f[0], f[1],) for f in filters]
     render_field_str = '{{ form.%s%s }}' % (field, ''.join(filter_strings))
-    return render_form(render_field_str)
+    return render_form(render_field_str, **kwargs)
+
 
 def render_field_from_tag(field, *attributes):
+    """
+    Renders MyForm's field ``field`` with attributes passed
+    as positional arguments.
+    """
     attr_strings = [' %s' % f for f in attributes]
     tpl = string.Template('{% render_field form.$field$attrs %}')
     render_field_str = tpl.substitute(field=field, attrs=''.join(attr_strings))
     return render_form(render_field_str)
 
+
 def assertIn(value, obj):
     assert value in obj, "%s not in %s" % (value, obj,)
 
+
 def assertNotIn(value, obj):
     assert value not in obj, "%s in %s" % (value, obj,)
+
+
+# ===============================
+#           Test cases
+# ===============================
 
 class SimpleAttrTest(TestCase):
     def test_attr(self):
@@ -74,12 +109,44 @@ class SimpleAttrTest(TestCase):
         res = render_field('simple', 'add_class', 'foo', 'add_class', 'bar')
         assertIn('class="bar foo"', res)
 
+    def test_set_data(self):
+        res = render_field('simple', 'set_data', 'key:value')
+        assertIn('data-key="value"', res)
+
+
+class ErrorsTest(TestCase):
+
+    def _err_form(self):
+        form = MyForm({'foo': 'bar'})  # some random data
+        form.is_valid()  # trigger form validation
+        return form
+
+    def test_error_class_no_error(self):
+        res = render_field('simple', 'add_error_class', 'err')
+        assertNotIn('class="err"', res)
+
+    def test_error_class_error(self):
+        form = self._err_form()
+        res = render_field('simple', 'add_error_class', 'err', form=form)
+        assertIn('class="err"', res)
+
+    def test_error_attr_no_error(self):
+        res = render_field('simple', 'add_error_attr', 'aria-invalid:true')
+        assertNotIn('aria-invalid="true"', res)
+
+    def test_error_attr_error(self):
+        form = self._err_form()
+        res = render_field('simple', 'add_error_attr', 'aria-invalid:true', form=form)
+        assertIn('aria-invalid="true"', res)
+
+
 class SilenceTest(TestCase):
     def test_silence_without_field(self):
         res = render_field("nothing", 'attr', 'foo:bar')
-        self.assertEquals(res, "")
+        self.assertEqual(res, "")
         res = render_field("nothing", 'add_class', 'some')
-        self.assertEquals(res, "")
+        self.assertEqual(res, "")
+
 
 class CustomizedWidgetTest(TestCase):
     def test_attr(self):
@@ -161,9 +228,9 @@ class SimpleRenderFieldTagTest(TestCase):
 class RenderFieldTagSilenceTest(TestCase):
     def test_silence_without_field(self):
         res = render_field_from_tag("nothing", 'foo="bar"')
-        self.assertEquals(res, "")
+        self.assertEqual(res, "")
         res = render_field_from_tag("nothing", 'class+="some"')
-        self.assertEquals(res, "")
+        self.assertEqual(res, "")
 
 
 class RenderFieldTagCustomizedWidgetTest(TestCase):
@@ -228,13 +295,15 @@ class RenderFieldTagFieldReuseTest(TestCase):
         res = render_form('{% render_field form.with_cls %}{% render_field form.with_cls class+="bar" %}{% render_field form.with_cls %}')
         self.assertEqual(res.count("class0"), 3)
         self.assertEqual(res.count("bar"), 1)
-        
+
+
 class RenderFieldTagUseTemplateVariableTest(TestCase):
     def test_use_template_variable_in_parametrs(self):
         res = render_form('{% render_field form.with_attrs egg+="pahaz" placeholder=form.with_attrs.label %}')
         assertIn('egg="spam pahaz"', res)
         assertIn('placeholder="With attrs"', res)
-        
+
+
 class RenderFieldFilter_field_type_widget_type_Test(TestCase):
     def test_field_type_widget_type_rendering_simple(self):
         res = render_form('<div class="{{ form.simple|field_type }} {{ form.simple|widget_type }} {{ form.simple.html_name }}">{{ form.simple }}</div>')
