@@ -6,3 +6,4 @@ Authors
 * Skylar Saveland <skylar.saveland@gmail.com>
 * Trey Hunner (http://treyhunner.com)
 * Pavel Blinov <pahaz.blinov@gmail.com>
+* Etienne Desautels
