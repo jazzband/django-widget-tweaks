@@ -18,6 +18,7 @@ MANIFEST.MF
 stuff/
 *.swp
 .tox/
+.coverage
 
 #os files
 .DS_Store
