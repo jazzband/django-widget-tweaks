@@ -7,8 +7,7 @@ def silence_without_field(fn):
     def wrapped(field, attr):
         if not field:
             return ""
-        else:
-            return fn(field, attr)
+        return fn(field, attr)
     return wrapped
 
 
@@ -30,7 +29,7 @@ def _process_field_attributes(field, attr, process):
     bound_method = type(old_as_widget)
     try:
         field.as_widget = bound_method(as_widget, field, field.__class__)
-    except TypeError: # python 3
+    except TypeError:  # python 3
         field.as_widget = bound_method(as_widget, field)
     return field
 
