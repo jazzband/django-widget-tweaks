@@ -1,0 +1,6 @@
+[run]
+branch = True
+include =
+    widget_tweaks/*
+omit =
+    widget_tweaks/tests.py
