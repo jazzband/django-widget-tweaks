@@ -30,13 +30,14 @@ class MyForm(Form):
     date = forms.DateField(widget=SelectDateWidget(attrs={'egg': 'spam'}))
 
 
-def render_form(text, form=None):
+def render_form(text, form=None, **context_args):
     """
     Renders template ``text`` with widget_tweaks library loaded
     and MyForm instance available in context as ``form``.
     """
     tpl = Template("{% load widget_tweaks %}" + text)
-    context = Context({'form': MyForm() if form is None else form})
+    context_args.update({'form': MyForm() if form is None else form})
+    context = Context(context_args)
     return tpl.render(context)
 
 
@@ -279,6 +280,28 @@ class RenderFieldTagCustomizedWidgetTest(TestCase):
         res = render_field_from_tag('with_cls', 'data-foo="bar"')
         assertIn('data-foo="bar"', res)
         assertIn('class="class0"', res)
+
+
+class RenderFieldWidgetClassesTest(TestCase):
+    def test_use_widget_required_class(self):
+        res = render_form('{% render_field form.simple %}',
+                          WIDGET_REQUIRED_CLASS='required_class')
+        self.assertIn('class="required_class"', res)
+
+    def test_use_widget_error_class(self):
+        res = render_form('{% render_field form.simple %}', form=MyForm({}),
+                          WIDGET_ERROR_CLASS='error_class')
+        self.assertIn('class="error_class"', res)
+
+    def test_use_widget_error_class_with_other_classes(self):
+        res = render_form('{% render_field form.simple class="blue" %}',
+                          form=MyForm({}), WIDGET_ERROR_CLASS='error_class')
+        self.assertIn('class="blue error_class"', res)
+
+    def test_use_widget_required_class_with_other_classes(self):
+        res = render_form('{% render_field form.simple class="blue" %}',
+                          form=MyForm({}), WIDGET_REQUIRED_CLASS='required_class')
+        self.assertIn('class="blue required_class"', res)
 
 
 class RenderFieldTagFieldReuseTest(TestCase):
