@@ -141,6 +141,19 @@ Example::
     <!-- template variables can be used as attribute values -->
     {% render_field form.text placeholder=form.text.label %}
 
+For fields rendered with ``{% render_field %}`` tag it is possible
+to set error class and required fields class by using
+``WIDGET_ERROR_CLASS`` and  ``WIDGET_REQUIRED_CLASS`` template variables::
+
+    {% with WIDGET_ERROR_CLASS='my_error' WIDGET_REQUIRED_CLASS='my_required' %}
+        {% render_field form.field1 %}
+        {% render_field form.field2 %}
+        {% render_field form.field3 %}
+    {% endwith %}
+
+You can be creative with these variables: e.g. a context processor could
+set a default CSS error class on all fields rendered by
+``{% render_field %}``.
 
 field_type and widget_type
 --------------------------

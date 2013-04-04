@@ -2,6 +2,12 @@
 Changes
 =======
 
+1.3 (2013-04-05)
+----------------
+
+* added support for ``WIDGET_ERROR_CLASS`` and  ``WIDGET_REQUIRED_CLASS``
+  template variables that affect ``{% render_field %}``.
+
 1.2 (2013-03-23)
 ----------------
 

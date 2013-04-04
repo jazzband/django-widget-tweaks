@@ -5,7 +5,7 @@ for cmd in 'egg_info', 'develop':
     if cmd in sys.argv:
         from setuptools import setup
 
-version='1.2'
+version='1.3'
 
 setup(
     name = 'django-widget-tweaks',
