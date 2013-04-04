@@ -286,22 +286,22 @@ class RenderFieldWidgetClassesTest(TestCase):
     def test_use_widget_required_class(self):
         res = render_form('{% render_field form.simple %}',
                           WIDGET_REQUIRED_CLASS='required_class')
-        self.assertIn('class="required_class"', res)
+        assertIn('class="required_class"', res)
 
     def test_use_widget_error_class(self):
         res = render_form('{% render_field form.simple %}', form=MyForm({}),
                           WIDGET_ERROR_CLASS='error_class')
-        self.assertIn('class="error_class"', res)
+        assertIn('class="error_class"', res)
 
     def test_use_widget_error_class_with_other_classes(self):
         res = render_form('{% render_field form.simple class="blue" %}',
                           form=MyForm({}), WIDGET_ERROR_CLASS='error_class')
-        self.assertIn('class="blue error_class"', res)
+        assertIn('class="blue error_class"', res)
 
     def test_use_widget_required_class_with_other_classes(self):
         res = render_form('{% render_field form.simple class="blue" %}',
                           form=MyForm({}), WIDGET_REQUIRED_CLASS='required_class')
-        self.assertIn('class="blue required_class"', res)
+        assertIn('class="blue required_class"', res)
 
 
 class RenderFieldTagFieldReuseTest(TestCase):
