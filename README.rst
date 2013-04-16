@@ -27,8 +27,56 @@ Then add 'widget_tweaks' to INSTALLED_APPS.
 Usage
 =====
 
-This app provides several template filters that can alter CSS classes and
-HTML attributes of django form fields.
+This app provides two sets of tools that may be used together or standalone:
+
+1. a ``render_field`` template tag for customizing form fields by using an
+   HTML-like syntax.
+2. several template filters for customizing form field HTML attributes and CSS
+   classes
+
+The ``render_field`` tag should be easier to use and should make form field
+customizations much easier for designers and front-end developers.
+
+The template filters are more powerful than the ``render_field`` tag, but they
+use a more complex and less HTML-like syntax.
+
+render_field
+------------
+
+This is a template tag that can be used as an alternative to aforementioned
+filters.  This template tag renders a field using a syntax similar to plain
+HTML attributes.
+
+Example::
+
+    {% load widget_tweaks %}
+
+    <!-- change input type (e.g. to HTML5) -->
+    {% render_field form.search_query type="search" %}
+
+    <!-- add/change several attributes -->
+    {% render_field form.text rows="20" cols="20" title="Hello, world!" %}
+
+    <!-- append to an attribute -->
+    {% render_field form.title class+="css_class_1 css_class_2" %}
+
+    <!-- template variables can be used as attribute values -->
+    {% render_field form.text placeholder=form.text.label %}
+
+For fields rendered with ``{% render_field %}`` tag it is possible
+to set error class and required fields class by using
+``WIDGET_ERROR_CLASS`` and  ``WIDGET_REQUIRED_CLASS`` template variables::
+
+    {% with WIDGET_ERROR_CLASS='my_error' WIDGET_REQUIRED_CLASS='my_required' %}
+        {% render_field form.field1 %}
+        {% render_field form.field2 %}
+        {% render_field form.field3 %}
+    {% endwith %}
+
+You can be creative with these variables: e.g. a context processor could
+set a default CSS error class on all fields rendered by
+``{% render_field %}``.
+
 
 attr
 ----
@@ -115,45 +163,6 @@ with accessibility::
 
     <!-- add aria-invalid="true" attribute on field error -->
     {{ form.title|add_error_attr:"aria-invalid:true" }}
-
-
-
-render_field
-------------
-
-This is a template tag that can be used as an alternative to aforementioned
-filters.  This template tag renders a field using a syntax similar to plain
-HTML attributes.
-
-Example::
-
-    {% load widget_tweaks %}
-
-    <!-- change input type (e.g. to HTML5) -->
-    {% render_field form.search_query type="search" %}
-
-    <!-- add/change several attributes -->
-    {% render_field form.text rows="20" cols="20" title="Hello, world!" %}
-
-    <!-- append to an attribute -->
-    {% render_field form.title class+="css_class_1 css_class_2" %}
-
-    <!-- template variables can be used as attribute values -->
-    {% render_field form.text placeholder=form.text.label %}
-
-For fields rendered with ``{% render_field %}`` tag it is possible
-to set error class and required fields class by using
-``WIDGET_ERROR_CLASS`` and  ``WIDGET_REQUIRED_CLASS`` template variables::
-
-    {% with WIDGET_ERROR_CLASS='my_error' WIDGET_REQUIRED_CLASS='my_required' %}
-        {% render_field form.field1 %}
-        {% render_field form.field2 %}
-        {% render_field form.field3 %}
-    {% endwith %}
-
-You can be creative with these variables: e.g. a context processor could
-set a default CSS error class on all fields rendered by
-``{% render_field %}``.
 
 field_type and widget_type
 --------------------------
