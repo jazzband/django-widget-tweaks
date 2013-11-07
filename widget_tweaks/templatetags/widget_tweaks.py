@@ -1,5 +1,5 @@
 import re
-from django.template import Library, Node, Variable, TemplateSyntaxError
+from django.template import Library, Node, Variable, TemplateSyntaxError, FilterExpression
 register = Library()
 
 
