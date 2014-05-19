@@ -184,6 +184,23 @@ Output::
         <input id="id_name" type="text" name="name" maxlength="100" />
     </div>
 
+content_type
+------------
+
+Tags for get object ContentType name.
+
+Example::
+
+    <div class="{{ object|content_type }}">
+        {{ form.comment }}
+    </div>
+    
+    Out:
+    
+    <div class="blog_post">
+        <input id="id_comment" type="text" name="comment" maxlength="100" />
+    </div>
+
 Filter chaining
 ===============
 

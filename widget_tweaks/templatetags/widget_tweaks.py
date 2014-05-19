@@ -1,5 +1,7 @@
 import re
 from django.template import Library, Node, Variable, TemplateSyntaxError
+from django.db.models.base import ModelBase
+from django.contrib.contenttypes.models import ContentType
 register = Library()
 
 
@@ -183,3 +185,39 @@ class FieldAttributeNode(Node):
         for k, v in self.append_attrs:
             bounded_field = append_attr(bounded_field, '%s:%s' % (k,v.resolve(context)))
         return bounded_field
+
+
+"""
+    Use:
+        <div class="field {{ field|field_type }} {{ field|widget_type }} {{ field.html_name }}">
+            {{ field }}
+        </div>
+    Out:
+        <div class="field charfield textinput name">
+            <input id="id_name" type="text" name="name" maxlength="100" />
+        </div>
+"""
+
+
+@register.filter(name='field_type')
+def field_type(field):
+    if hasattr(field, 'field') and field.field:
+        return field.field.__class__.__name__.lower()
+    return ''
+
+
+@register.filter(name='widget_type')
+def widget_type(field):
+    if hasattr(field, 'field') and hasattr(field.field, 'widget') and field.field.widget:
+        return field.field.widget.__class__.__name__.lower()
+    return ''
+
+
+@register.filter(name='content_type')
+def content_type(model_or_instance):
+    model = type(model_or_instance) if not isinstance(model_or_instance, ModelBase) else \
+            model_or_instance
+    if isinstance(model, ModelBase):
+        content_type = ContentType.objects.get_for_model(model)
+        return "{0}_{1}".format(content_type.app_label, content_type.model)
+    return ''
