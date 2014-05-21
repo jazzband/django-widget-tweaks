@@ -359,4 +359,4 @@ class ModelFiltersTest(TestCase):
         from django.contrib.contenttypes.models import ContentType
         i = ContentType
         res = render_form('<{{ i|content_type }}>', i=i)
-        assertIn('widget_tweaks_mymodel', res)
+        assertIn('contenttypes_contenttype', res)
