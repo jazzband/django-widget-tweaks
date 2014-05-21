@@ -14,6 +14,8 @@ from django.forms.extras.widgets import SelectDateWidget
 # ==============================
 #       Testing helpers
 # ==============================
+from django.db import models
+
 
 class MyForm(Form):
     """
@@ -38,6 +40,16 @@ def render_form(text, form=None, **context_args):
     tpl = Template("{% load widget_tweaks %}" + text)
     context_args.update({'form': MyForm() if form is None else form})
     context = Context(context_args)
+
+
+class MyModel(models.Model):
+    pass
+
+def render_form(text, **extra_context):
+    tpl = Template("{% load widget_tweaks %}" + text)
+    context_dict = {'form': MyForm()}
+    context_dict.update(extra_context)
+    context = Context(context_dict)
     return tpl.render(context)
 
 
@@ -331,3 +343,20 @@ class RenderFieldFilter_field_type_widget_type_Test(TestCase):
     def test_field_type_widget_type_rendering_simple(self):
         res = render_form('<div class="{{ form.simple|field_type }} {{ form.simple|widget_type }} {{ form.simple.html_name }}">{{ form.simple }}</div>')
         assertIn('class="charfield textinput simple"', res)
+
+class ModelFiltersTest(TestCase):
+    def test_content_type_for_instance(self):
+        i = MyModel.objects.create()
+        res = render_form('<{{ i|content_type }}>', i=i)
+        assertIn('widget_tweaks_mymodel', res)
+
+    def test_content_type_for_model(self):
+        i = MyModel
+        res = render_form('<{{ i|content_type }}>', i=i)
+        assertIn('widget_tweaks_mymodel', res)
+        
+    def test_content_type_for_model_contenttype(self):
+        from django.contrib.contenttypes.models import ContentType
+        i = ContentType
+        res = render_form('<{{ i|content_type }}>', i=i)
+        assertIn('contenttypes_contenttype', res)
