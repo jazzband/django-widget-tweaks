@@ -1,5 +1,5 @@
 import re
-from django.template import Library, Node, Variable, TemplateSyntaxError
+from django.template import Library, Node, Variable, TemplateSyntaxError, FilterExpression
 register = Library()
 
 
@@ -183,3 +183,42 @@ class FieldAttributeNode(Node):
         for k, v in self.append_attrs:
             bounded_field = append_attr(bounded_field, '%s:%s' % (k,v.resolve(context)))
         return bounded_field
+
+# ======================== change_field tag ==============================
+
+@register.tag
+def change_field(parser, token):
+    node = render_field(parser, token)
+
+    old_render = node.render
+
+    def render(self, context):
+        result = unicode(old_render(context))
+
+        # proccess widget filters
+        field = node.field
+        while isinstance(field, FilterExpression):
+            field = field.resolve(context)
+
+        widget = field.form.fields[field.name].widget
+
+        # replace widget.render method 
+        old_widget_render = widget.render
+        def widget_render(self, name, value, attrs=None):
+            # restore widget.render method 
+            # widget.render = old_widget_render # render once if remove comment
+            return result
+        bound_method_render = type(widget.render)
+        try:
+            widget.render = bound_method_render(widget_render, widget, widget.__class__)
+        except TypeError:  # python 3
+            widget.render = bound_method_render(widget_render, widget)
+        return ""
+
+    # decorate node.render method without output 
+    bound_method = type(old_render)
+    try:
+        node.render = bound_method(render, node, node.__class__)
+    except TypeError:  # python 3
+        node.render = bound_method(render, node)
+    return node
