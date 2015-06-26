@@ -1,11 +1,10 @@
 import string
-try:
-    from django.utils.unittest import expectedFailure
-except ImportError:
-    def expectedFailure(func):
-        return lambda *args, **kwargs: None
 
-from django.test import TestCase
+try:
+    from unittest import TestCase, expectedFailure
+except ImportError:
+    from unittest2 import TestCase, expectedFailure
+
 from django.forms import Form, CharField, TextInput
 from django import forms
 from django.template import Template, Context

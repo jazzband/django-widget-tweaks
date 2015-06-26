@@ -8,15 +8,18 @@ from django.core.management import call_command
 
 sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
-settings.configure(
-    INSTALLED_APPS=('widget_tweaks',),
-    DATABASES = {
+opts = {'INSTALLED_APPS': ['widget_tweaks']}
+
+if django.VERSION[:2] < (1, 5):
+    opts['DATABASES'] = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': ':MEMORY:',
         }
     }
-)
+
+settings.configure(**opts)
+
 if django.VERSION[:2] >= (1, 7):
     django.setup()
 
