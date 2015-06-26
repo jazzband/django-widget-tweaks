@@ -13,7 +13,7 @@ form definitions. Altering CSS classes and HTML attributes is supported.
 That should be enough for designers to customize field presentation (using
 CSS and unobtrusive javascript) without touching python code.
 
-The license is MIT.
+License is MIT.
 
 Installation
 ============
@@ -223,15 +223,11 @@ Contributing
 If you've found a bug, implemented a feature or have a suggestion,
 do not hesitate to contact me, fire an issue or send a pull request.
 
-Source code:
+* Source code: https://github.com/kmike/django-widget-tweaks/
+* Bug tracker: https://github.com/kmike/django-widget-tweaks/issues
 
-* https://bitbucket.org/kmike/django-widget-tweaks/
-* https://github.com/kmike/django-widget-tweaks/
-
-Bug tracker: https://bitbucket.org/kmike/django-widget-tweaks/issues/new
-
-running the tests
------------------
+Testing
+-------
 
 Make sure you have `tox <http://tox.testrun.org/>`_ installed, then type
 

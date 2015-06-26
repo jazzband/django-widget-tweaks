@@ -8,17 +8,15 @@ for cmd in 'egg_info', 'develop':
 version='1.3'
 
 setup(
-    name = 'django-widget-tweaks',
-    version = version,
-    author = 'Mikhail Korobov',
-    author_email = 'kmike84@gmail.com',
-    url = 'https://bitbucket.org/kmike/django-widget-tweaks/',
-
-    description = 'Tweak the form field rendering in templates, not in python-level form definitions.',
-    long_description = open('README.rst').read() + "\n\n" + open('CHANGES.rst').read(),
-    license = 'MIT license',
-    requires = ['django (>= 1.2)'],
-
+    name='django-widget-tweaks',
+    version=version,
+    author='Mikhail Korobov',
+    author_email='kmike84@gmail.com',
+    url='https://github.com/kmike/django-widget-tweaks',
+    description='Tweak the form field rendering in templates, not in python-level form definitions.',
+    long_description=open('README.rst').read() + "\n\n" + open('CHANGES.rst').read(),
+    license='MIT license',
+    requires=['django (>= 1.2)'],
     packages=['widget_tweaks', 'widget_tweaks.templatetags'],
 
     classifiers=[
