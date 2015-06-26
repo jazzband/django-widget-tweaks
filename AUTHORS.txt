@@ -7,3 +7,4 @@ Authors
 * Trey Hunner (http://treyhunner.com)
 * Pavel Blinov <pahaz.blinov@gmail.com>
 * Etienne Desautels
+* Sergey Maranchuk

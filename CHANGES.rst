@@ -2,6 +2,16 @@
 Changes
 =======
 
+1.4 (2015-06-27)
+----------------
+
+* Django 1.7, 1.8 and 1.9 support;
+* setup.py is switched to setuptools;
+* testing improvements;
+* Python 3.4 support is added;
+* Python 2.5 is not longer supported;
+* bitbucket repository is no longer supported (development is moved to github).
+
 1.3 (2013-04-05)
 ----------------
 
