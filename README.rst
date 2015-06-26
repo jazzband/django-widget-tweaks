@@ -2,10 +2,18 @@
 django-widget-tweaks
 ====================
 
-.. image:: https://travis-ci.org/kmike/django-widget-tweaks.png?branch=master
-    :target: https://travis-ci.org/kmike/django-widget-tweaks
-.. image:: https://coveralls.io/repos/kmike/django-widget-tweaks/badge.png?branch=master
-    :target: https://coveralls.io/r/kmike/django-widget-tweaks
+.. image:: https://img.shields.io/pypi/v/django-widget-tweaks.svg
+   :target: https://pypi.python.org/pypi/django-widget-tweaks
+   :alt: PyPI Version
+
+.. image:: https://img.shields.io/travis/kmike/django-widget-tweaks/master.svg
+   :target: http://travis-ci.org/kmike/django-widget-tweaks
+   :alt: Build Status
+
+.. image:: https://img.shields.io/coveralls/kmike/django-widget-tweaks/master.svg
+   :target: https://coveralls.io/r/kmike/django-widget-tweaks
+   :alt: Test Coverage
+
 
 Tweak the form field rendering in templates, not in python-level
 form definitions. Altering CSS classes and HTML attributes is supported.
