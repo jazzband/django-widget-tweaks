@@ -1,44 +1,43 @@
 language: python
-python:
-  - "3.3"
-  - "3.2"
-  - "2.7"
-  - "2.6"
-  - "pypy"
+python: 3.4
+sudo: false
 
 env:
-  - DJANGO=1.2.7
-  - DJANGO=1.3.7
-  - DJANGO=1.4.8
-  - DJANGO=1.5.4
+- TOXENV=py26-dj12
+- TOXENV=py26-dj13
+- TOXENV=py26-dj14
+- TOXENV=py26-dj15
+- TOXENV=py26-dj16
 
-matrix:
-    exclude:
-        - python: "3.2"
-          env: DJANGO=1.2.7
-        - python: "3.2"
-          env: DJANGO=1.3.7
-        - python: "3.2"
-          env: DJANGO=1.4.8
+- TOXENV=py27-dj12
+- TOXENV=py27-dj13
+- TOXENV=py27-dj14
+- TOXENV=py27-dj15
+- TOXENV=py27-dj16
+- TOXENV=py27-dj17
+- TOXENV=py27-dj18
+- TOXENV=py27-djmaster
 
-        - python: "3.3"
-          env: DJANGO=1.2.7
-        - python: "3.3"
-          env: DJANGO=1.3.7
-        - python: "3.3"
-          env: DJANGO=1.4.8
+- TOXENV=py32-dj15
+- TOXENV=py32-dj16
+- TOXENV=py32-dj17
+- TOXENV=py32-dj18
 
-        - python: "pypy"
-          env: DJANGO=1.2.7
-        - python: "pypy"
-          env: DJANGO=1.3.7
+- TOXENV=py33-dj15
+- TOXENV=py33-dj16
+- TOXENV=py33-dj17
+- TOXENV=py33-dj18
+
+- TOXENV=py34-dj17
+- TOXENV=py34-dj18
+- TOXENV=py34-djmaster
+
+- TOXENV=pypy-dj12
+- TOXENV=pypy-dj14
+- TOXENV=pypy-dj18
+- TOXENV=pypy-djmaster
 
 install:
-  - pip install django==$DJANGO
-  - pip install coverage coveralls
-  - python setup.py install
+- pip install -U tox
 
-script: coverage run runtests.py --source widget_tweaks
-
-after_success:
-  - coveralls
+script: tox
