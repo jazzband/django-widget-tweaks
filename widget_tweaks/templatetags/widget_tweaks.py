@@ -1,11 +1,7 @@
 import re
-import sys
 import copy
 from django.template import Library, Node, Variable, TemplateSyntaxError
 register = Library()
-
-
-PY26 = sys.version_info[:2] == (2, 6)
 
 
 def silence_without_field(fn):
@@ -23,12 +19,7 @@ def _process_field_attributes(field, attr, process):
     attribute = params[0]
     value = params[1] if len(params) == 2 else ''
 
-    if not PY26:
-        # See https://bugs.python.org/issue1515.
-        # It is OK to not do it in Python 2.6 because
-        # Django versions which require deepcopy here (1.7+)
-        # don't support Python 2.6 anyways.
-        field = copy.deepcopy(field)
+    field = copy.copy(field)
 
     # decorate field.as_widget method with updated attributes
     old_as_widget = field.as_widget
