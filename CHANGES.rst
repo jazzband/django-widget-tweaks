@@ -2,6 +2,12 @@
 Changes
 =======
 
+1.4.1 (2015-06-29)
+------------------
+
+* fixed a regression in django-widget-tweaks v1.4
+  (the field is no longer deep copied).
+
 1.4 (2015-06-27)
 ----------------
 
