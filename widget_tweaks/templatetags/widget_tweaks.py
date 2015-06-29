@@ -1,11 +1,7 @@
 import re
-import sys
-import copy
+import types
 from django.template import Library, Node, Variable, TemplateSyntaxError
 register = Library()
-
-
-PY26 = sys.version_info[:2] == (2, 6)
 
 
 def silence_without_field(fn):
@@ -23,26 +19,17 @@ def _process_field_attributes(field, attr, process):
     attribute = params[0]
     value = params[1] if len(params) == 2 else ''
 
-    if not PY26:
-        # See https://bugs.python.org/issue1515.
-        # It is OK to not do it in Python 2.6 because
-        # Django versions which require deepcopy here (1.7+)
-        # don't support Python 2.6 anyways.
-        field = copy.deepcopy(field)
-
     # decorate field.as_widget method with updated attributes
     old_as_widget = field.as_widget
 
     def as_widget(self, widget=None, attrs=None, only_initial=False):
         attrs = attrs or {}
         process(widget or self.field.widget, attrs, attribute, value)
-        return old_as_widget(widget, attrs, only_initial)
+        html = old_as_widget(widget, attrs, only_initial)
+        self.as_widget = old_as_widget
+        return html
 
-    bound_method = type(old_as_widget)
-    try:
-        field.as_widget = bound_method(as_widget, field, field.__class__)
-    except TypeError:  # python 3
-        field.as_widget = bound_method(as_widget, field)
+    field.as_widget = types.MethodType(as_widget, field)
     return field
 
 
