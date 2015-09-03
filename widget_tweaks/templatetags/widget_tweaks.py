@@ -1,7 +1,13 @@
 import re
 import types
+import django
 from django.template import Library, Node, Variable, TemplateSyntaxError
+from django.utils.safestring import mark_safe
+
 register = Library()
+
+
+BACKWARDS_COMPATIBILITY = django.VERSION[:2] < (1, 8)
 
 
 def silence_without_field(fn):
@@ -18,6 +24,8 @@ def _process_field_attributes(field, attr, process):
     params = attr.split(':', 1)
     attribute = params[0]
     value = params[1] if len(params) == 2 else True
+    if BACKWARDS_COMPATIBILITY and value is True:
+        value = '__BACKWARDS_COMPATIBILITY__'
 
     # decorate field.as_widget method with updated attributes
     old_as_widget = field.as_widget
@@ -26,6 +34,8 @@ def _process_field_attributes(field, attr, process):
         attrs = attrs or {}
         process(widget or self.field.widget, attrs, attribute, value)
         html = old_as_widget(widget, attrs, only_initial)
+        if BACKWARDS_COMPATIBILITY:
+            html = mark_safe(html.replace('="__BACKWARDS_COMPATIBILITY__"', ''))
         self.as_widget = old_as_widget
         return html
 
