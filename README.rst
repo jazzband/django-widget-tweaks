@@ -194,12 +194,14 @@ Output::
 
 Mixing render_field and filters
 ===============================
-The render_field tag and filters mentioned above can be mixed:
+The render_field tag and filters mentioned above can be mixed.
+
+Exmple::
 
     {% render_field form.category|append_attr:"readonly:readonly" type="text" placeholder="Category" %}
 
 
-returns:
+returns::
 
     <input name="category" placeholder="Profession" readonly="readonly" type="text">
 
