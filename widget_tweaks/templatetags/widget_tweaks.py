@@ -118,9 +118,7 @@ ATTRIBUTE_RE = re.compile(r"""
         \+?=
     )
     (?P<value>
-    ['"]? # start quote
-        [^"']*
-    ['"]? # end quote
+        .*
     )
 """, re.VERBOSE | re.UNICODE)
 
