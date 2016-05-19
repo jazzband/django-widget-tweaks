@@ -231,6 +231,8 @@ class RenderFieldTagSilenceTest(TestCase):
         self.assertEqual(res, "")
         res = render_field_from_tag("nothing", 'class+="some"')
         self.assertEqual(res, "")
+        res = render_field_from_tag("nothing", 'disabled?=1')
+        self.assertEqual(res, "")
 
 
 class RenderFieldTagCustomizedWidgetTest(TestCase):
@@ -274,6 +276,19 @@ class RenderFieldTagCustomizedWidgetTest(TestCase):
         assertIn('class0', res)
         assertIn('class1', res)
         assertIn('class2', res)
+
+    def test_falsy_conditional_attr(self):
+        res = render_field_from_tag('with_cls', 'readonly?=0')
+        assertNotIn('readonly', res)
+
+    def test_truthy_conditional_attr(self):
+        res = render_field_from_tag('with_cls', 'readonly?=1')
+        assertIn('readonly', res)
+
+    def test_duplicate_conditional_attr(self):
+        # same logic as append
+        res = render_field_from_tag('with_cls', 'readonly?="foo" readonly?=0')
+        assertIn('readonly', res)
 
     def test_hyphenated_attributes(self):
         res = render_field_from_tag('with_cls', 'data-foo="bar"')
