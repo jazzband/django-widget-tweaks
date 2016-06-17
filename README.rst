@@ -26,11 +26,18 @@ License is MIT.
 Installation
 ============
 
-::
+You can get Django Widget Tweaks by using pip::
 
-    pip install django-widget-tweaks
+    $ pip install django-widget-tweaks
 
-Then add 'widget_tweaks' to INSTALLED_APPS.
+To enable `widget_tweaks` in your project you need to add it to `INSTALLED_APPS` in your projects 
+`settings.py` file::
+
+    INSTALLED_APPS = [
+        ...
+        'widget_tweaks',
+        ...
+    ]
 
 Usage
 =====
