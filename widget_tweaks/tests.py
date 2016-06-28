@@ -330,3 +330,18 @@ class RenderFieldFilter_field_type_widget_type_Test(TestCase):
     def test_field_type_widget_type_rendering_simple(self):
         res = render_form('<div class="{{ form.simple|field_type }} {{ form.simple|widget_type }} {{ form.simple.html_name }}">{{ form.simple }}</div>')
         assertIn('class="charfield textinput simple"', res)
+
+
+class RenderFieldTagNonValueAttribute(TestCase):
+    def test_field_non_value(self):
+        res = render_form("{{ form.simple|attr:'required' }}", form=MyForm({}))
+        assertIn('required', res)
+        assertNotIn('required=', res)
+
+    def test_field_empty_value(self):
+        res = render_form("{{ form.simple|attr:'required:' }}", form=MyForm({}))
+        assertIn('required=""', res)
+
+    def test_field_other_value(self):
+        res = render_form("{{ form.simple|attr:'required:spam' }}", form=MyForm({}))
+        assertIn('required="spam"', res)
