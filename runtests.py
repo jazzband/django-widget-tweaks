@@ -18,6 +18,13 @@ if django.VERSION[:2] < (1, 5):
         }
     }
 
+if django.VERSION[:2] >= (1, 10):
+    opts['TEMPLATES'] = [
+        {
+            'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        },
+    ]
+
 settings.configure(**opts)
 
 if django.VERSION[:2] >= (1, 7):
