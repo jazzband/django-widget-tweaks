@@ -318,6 +318,48 @@ class RenderFieldTagFieldReuseTest(TestCase):
         self.assertEqual(res.count("class0"), 3)
         self.assertEqual(res.count("bar"), 1)
 
+    def test_field_double_rendering_id(self):
+        res = render_form(
+            '{{ form.simple }}'
+            '{% render_field form.simple id="id_1" %}'
+            '{% render_field form.simple id="id_2" %}'
+        )
+        self.assertEqual(res.count("id_1"), 1)
+        self.assertEqual(res.count("id_2"), 1)
+
+    def test_field_double_rendering_id_name(self):
+        res = render_form(
+            '{{ form.simple }}'
+            '{% render_field form.simple id="id_1" name="n_1" %}'
+            '{% render_field form.simple id="id_2" name="n_2" %}'
+        )
+        self.assertEqual(res.count("id_1"), 1)
+        self.assertEqual(res.count("id_2"), 1)
+        self.assertEqual(res.count("n_1"), 1)
+        self.assertEqual(res.count("n_2"), 1)
+
+    def test_field_double_rendering_id_class(self):
+        res = render_form(
+            '{{ form.simple }}'
+            '{% render_field form.simple id="id_1" class="c_1" %}'
+            '{% render_field form.simple id="id_2" class="c_2" %}'
+        )
+        self.assertEqual(res.count("id_1"), 1)
+        self.assertEqual(res.count("id_2"), 1)
+        self.assertEqual(res.count("c_1"), 1)
+        self.assertEqual(res.count("c_2"), 1)
+
+    def test_field_double_rendering_name_class(self):
+        res = render_form(
+            '{{ form.simple }}'
+            '{% render_field form.simple name="n_1" class="c_1" %}'
+            '{% render_field form.simple name="n_2" class="c_2" %}'
+        )
+        self.assertEqual(res.count("n_1"), 1)
+        self.assertEqual(res.count("n_2"), 1)
+        self.assertEqual(res.count("c_1"), 1)
+        self.assertEqual(res.count("c_2"), 1)
+
 
 class RenderFieldTagUseTemplateVariableTest(TestCase):
     def test_use_template_variable_in_parametrs(self):
