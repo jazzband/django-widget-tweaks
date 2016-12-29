@@ -1,3 +1,4 @@
+# coding=utf-8
 import re
 import types
 from copy import copy
@@ -127,6 +128,7 @@ ATTRIBUTE_RE = re.compile(r"""
     )
 """, re.VERBOSE | re.UNICODE)
 
+
 @register.tag
 def render_field(parser, token):
     """
@@ -137,7 +139,8 @@ def render_field(parser, token):
     attribute=value or attribute="a value" for assignment and attribute+=value
     or attribute+="value" for appending.
     """
-    error_msg = '%r tag requires a form field followed by a list of attributes and values in the form attr="value"' % token.split_contents()[0]
+    error_msg = '%r tag requires a form field followed by a list of attributes ' \
+                'and values in the form attr="value"' % token.split_contents()[0]
     try:
         bits = token.split_contents()
         tag_name = bits[0]
@@ -174,7 +177,7 @@ class FieldAttributeNode(Node):
         bounded_field = self.field.resolve(context)
         field = getattr(bounded_field, 'field', None)
         if (getattr(bounded_field, 'errors', None) and
-            'WIDGET_ERROR_CLASS' in context):
+                'WIDGET_ERROR_CLASS' in context):
             bounded_field = append_attr(bounded_field, 'class:%s' %
                                         context['WIDGET_ERROR_CLASS'])
         if field and field.required and 'WIDGET_REQUIRED_CLASS' in context:
@@ -185,3 +188,50 @@ class FieldAttributeNode(Node):
         for k, v in self.append_attrs:
             bounded_field = append_attr(bounded_field, '%s:%s' % (k,v.resolve(context)))
         return bounded_field
+
+
+# ======================== render_label tag ==============================
+
+@register.tag
+def render_label(parser, token):
+    """
+    Render a label of form field using given attribute-value pairs
+    Takes form field as first argument and list of attribute-value pairs for
+    all other arguments. Attribute-value pairs should be in the form of
+    attribute=value or attribute="a value" for assignment.
+    @param parser: template parser
+    @type parser: django.template.base.Parser
+    @param token: template token
+    @type token: django.template.base.Token
+    @return: template node
+    @rtype: django.template.Node
+    """
+    error_msg = '{!r} tag requires a form field followed by a list of  attributes and ' \
+                'values in the form attr="value"'.format(token.split_contents()[0])
+    try:
+        bits = token.split_contents()
+        tag_name = bits[0]
+        form_field = bits[1]
+        attr_list = bits[2:]
+    except ValueError:
+        raise TemplateSyntaxError(error_msg)
+    form_field = parser.compile_filter(form_field)
+    attrs = []
+    for pair in attr_list:
+        match = ATTRIBUTE_RE.match(pair)
+        if not match:
+            raise TemplateSyntaxError(error_msg + ": %s" % pair)
+        dct = match.groupdict()
+        attrs.append((dct['attr'], parser.compile_filter(dct['value'])))
+    return FieldLabelAttributeNode(form_field, attrs)
+
+
+class FieldLabelAttributeNode(Node):
+    def __init__(self, field, attrs):
+        self.field = field
+        self.attrs = attrs
+
+    def render(self, context):
+        bounded_field = self.field.resolve(context)
+        attrs = {k: v.resolve(context) for k, v in self.attrs}
+        return bounded_field.label_tag(attrs=attrs)
