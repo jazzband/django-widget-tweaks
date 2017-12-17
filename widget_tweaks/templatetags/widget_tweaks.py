@@ -181,7 +181,10 @@ class FieldAttributeNode(Node):
             bounded_field = append_attr(bounded_field, 'class:%s' %
                                         context['WIDGET_REQUIRED_CLASS'])
         for k, v in self.set_attrs:
-            bounded_field = set_attr(bounded_field, '%s:%s' % (k,v.resolve(context)))
+            if k == 'type':
+                bounded_field.field.widget.input_type = v.resolve(context)
+            else:
+                bounded_field = set_attr(bounded_field, '%s:%s' % (k,v.resolve(context)))
         for k, v in self.append_attrs:
             bounded_field = append_attr(bounded_field, '%s:%s' % (k,v.resolve(context)))
         return bounded_field
