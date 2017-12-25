@@ -36,7 +36,7 @@ env:
 - TOXENV=pypy-dj110
 - TOXENV=pypy-djmaster
 
-install:
-- pip install -U tox
+before_script:
+- pip install tox
 
-script: tox
+script: tox -e $TOXENV
