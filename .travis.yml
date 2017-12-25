@@ -1,40 +1,17 @@
 language: python
-python: 3.5
+python: 3.6
 sudo: false
 
-env:
-- TOXENV=py27-dj12
-- TOXENV=py27-dj13
-- TOXENV=py27-dj14
-- TOXENV=py27-dj15
-- TOXENV=py27-dj16
-- TOXENV=py27-dj17
-- TOXENV=py27-dj18
-- TOXENV=py27-dj19
-- TOXENV=py27-dj110
-- TOXENV=py27-djmaster
-
-- TOXENV=py33-dj15
-- TOXENV=py33-dj16
-- TOXENV=py33-dj17
-- TOXENV=py33-dj18
-
-- TOXENV=py34-dj17
-- TOXENV=py34-dj18
-- TOXENV=py34-dj19
-- TOXENV=py34-dj110
-- TOXENV=py34-djmaster
-
-- TOXENV=py35-dj19
-- TOXENV=py35-dj110
-- TOXENV=py35-djmaster
-
-- TOXENV=pypy-dj12
-- TOXENV=pypy-dj14
-- TOXENV=pypy-dj18
-- TOXENV=pypy-dj19
-- TOXENV=pypy-dj110
-- TOXENV=pypy-djmaster
+matrix:
+  include:
+    - env: TOXENV=py36-dj18,py36-dj111,py36-dj2,coverage,flake
+    - env: TOXENV=py36-djmaster
+    - python: 3.5
+      env: TOXENV=py35-dj18,py35-dj111,py35-dj2
+    - python: 3.4
+      env: TOXENV=py34-dj18,py34-dj111,py34-dj2
+    - python: 2.7
+      env: TOXENV=py34-dj18,py34-dj111
 
 before_script:
 - pip install tox
