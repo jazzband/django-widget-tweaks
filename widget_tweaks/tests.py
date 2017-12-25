@@ -8,7 +8,10 @@ except ImportError:
 from django.forms import Form, CharField, TextInput
 from django import forms
 from django.template import Template, Context
-from django.forms.extras.widgets import SelectDateWidget
+try:
+    from django.forms import SelectDateWidget
+except ImportError:
+    from django.forms.extras.widgets import SelectDateWidget
 
 # ==============================
 #       Testing helpers
@@ -156,6 +159,7 @@ class CustomizedWidgetTest(TestCase):
         assertIn('egg="spam"', res)
 
     # see https://code.djangoproject.com/ticket/16754
+    # can be dropped once 1.8 is not supported
     @expectedFailure
     def test_selectdatewidget(self):
         res = render_field('date', 'attr', 'foo:bar')
@@ -241,6 +245,7 @@ class RenderFieldTagCustomizedWidgetTest(TestCase):
         assertIn('egg="spam"', res)
 
     # see https://code.djangoproject.com/ticket/16754
+    # can be dropped once 1.8 is not supported
     @expectedFailure
     def test_selectdatewidget(self):
         res = render_field_from_tag('date', 'foo="bar"')
