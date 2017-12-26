@@ -1,14 +1,20 @@
 import string
 
 try:
-    from unittest import TestCase, expectedFailure
+    from unittest import TestCase, skipIf
 except ImportError:
-    from unittest2 import TestCase, expectedFailure
+    from unittest2 import TestCase, skipIf
 
-from django.forms import Form, CharField, TextInput
+from django import VERSION
 from django import forms
+from django.forms import Form, CharField, TextInput
 from django.template import Template, Context
-from django.forms.extras.widgets import SelectDateWidget
+
+try:
+    from django.forms.extras.widgets import SelectDateWidget  # django < 2.0
+except ImportError:
+    from django.forms.widgets import SelectDateWidget  # django >= 2.0
+
 
 # ==============================
 #       Testing helpers
@@ -155,8 +161,7 @@ class CustomizedWidgetTest(TestCase):
         assertNotIn('foo="baz"', res)
         assertIn('egg="spam"', res)
 
-    # see https://code.djangoproject.com/ticket/16754
-    @expectedFailure
+    @skipIf(VERSION < (1, 11, 0, 'final', 0), 'see https://code.djangoproject.com/ticket/16754')
     def test_selectdatewidget(self):
         res = render_field('date', 'attr', 'foo:bar')
         assertIn('egg="spam"', res)
@@ -240,8 +245,7 @@ class RenderFieldTagCustomizedWidgetTest(TestCase):
         assertNotIn('foo="baz"', res)
         assertIn('egg="spam"', res)
 
-    # see https://code.djangoproject.com/ticket/16754
-    @expectedFailure
+    @skipIf(VERSION < (1, 11, 0, 'final', 0), 'see https://code.djangoproject.com/ticket/16754')
     def test_selectdatewidget(self):
         res = render_field_from_tag('date', 'foo="bar"')
         assertIn('egg="spam"', res)
