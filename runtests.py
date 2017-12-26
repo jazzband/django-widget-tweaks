@@ -31,4 +31,4 @@ if django.VERSION[:2] >= (1, 7):
     django.setup()
 
 if __name__ == "__main__":
-    call_command('test', 'widget_tweaks')
+    call_command('test', 'widget_tweaks', verbosity=2)
