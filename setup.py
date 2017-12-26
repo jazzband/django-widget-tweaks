@@ -8,7 +8,7 @@ setup(
     version=version,
     author='Mikhail Korobov',
     author_email='kmike84@gmail.com',
-    url='https://github.com/kmike/django-widget-tweaks',
+    url='https://github.com/jazzband/django-widget-tweaks',
     description='Tweak the form field rendering in templates, not in python-level form definitions.',
     long_description=open('README.rst').read() + "\n\n" + open('CHANGES.rst').read(),
     license='MIT license',
