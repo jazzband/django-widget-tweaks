@@ -161,6 +161,7 @@ class CustomizedWidgetTest(TestCase):
         assertNotIn('foo="baz"', res)
         assertIn('egg="spam"', res)
 
+    # XXX can be dropped once 1.8 is not supported
     @skipIf(VERSION < (1, 11, 0, 'final', 0), 'see https://code.djangoproject.com/ticket/16754')
     def test_selectdatewidget(self):
         res = render_field('date', 'attr', 'foo:bar')
@@ -245,6 +246,7 @@ class RenderFieldTagCustomizedWidgetTest(TestCase):
         assertNotIn('foo="baz"', res)
         assertIn('egg="spam"', res)
 
+    # XXX can be dropped once 1.8 is not supported
     @skipIf(VERSION < (1, 11, 0, 'final', 0), 'see https://code.djangoproject.com/ticket/16754')
     def test_selectdatewidget(self):
         res = render_field_from_tag('date', 'foo="bar"')
