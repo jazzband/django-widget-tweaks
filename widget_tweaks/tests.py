@@ -11,9 +11,9 @@ from django.forms import Form, CharField, TextInput
 from django.template import Template, Context
 
 try:
-    from django.forms.extras.widgets import SelectDateWidget  # django < 2.0
+    from django.forms import SelectDateWidget # django >= 2.0
 except ImportError:
-    from django.forms.widgets import SelectDateWidget  # django >= 2.0
+    from django.forms.extras.widgets import SelectDateWidget # django < 2.0
 
 
 # ==============================
