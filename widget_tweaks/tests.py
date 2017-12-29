@@ -1,17 +1,20 @@
 import string
 
 try:
-    from unittest import TestCase, expectedFailure
+    from unittest import TestCase, skipIf
 except ImportError:
-    from unittest2 import TestCase, expectedFailure
+    from unittest2 import TestCase, skipIf
 
-from django.forms import Form, CharField, TextInput
+from django import VERSION
 from django import forms
+from django.forms import Form, CharField, TextInput
 from django.template import Template, Context
+
 try:
-    from django.forms import SelectDateWidget
+    from django.forms import SelectDateWidget # django >= 2.0
 except ImportError:
-    from django.forms.extras.widgets import SelectDateWidget
+    from django.forms.extras.widgets import SelectDateWidget # django < 2.0
+
 
 # ==============================
 #       Testing helpers
@@ -158,9 +161,8 @@ class CustomizedWidgetTest(TestCase):
         assertNotIn('foo="baz"', res)
         assertIn('egg="spam"', res)
 
-    # see https://code.djangoproject.com/ticket/16754
-    # can be dropped once 1.8 is not supported
-    @expectedFailure
+    # XXX can be dropped once 1.8 is not supported
+    @skipIf(VERSION < (1, 11, 0, 'final', 0), 'see https://code.djangoproject.com/ticket/16754')
     def test_selectdatewidget(self):
         res = render_field('date', 'attr', 'foo:bar')
         assertIn('egg="spam"', res)
@@ -244,9 +246,8 @@ class RenderFieldTagCustomizedWidgetTest(TestCase):
         assertNotIn('foo="baz"', res)
         assertIn('egg="spam"', res)
 
-    # see https://code.djangoproject.com/ticket/16754
-    # can be dropped once 1.8 is not supported
-    @expectedFailure
+    # XXX can be dropped once 1.8 is not supported
+    @skipIf(VERSION < (1, 11, 0, 'final', 0), 'see https://code.djangoproject.com/ticket/16754')
     def test_selectdatewidget(self):
         res = render_field_from_tag('date', 'foo="bar"')
         assertIn('egg="spam"', res)
