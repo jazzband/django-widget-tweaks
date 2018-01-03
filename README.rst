@@ -199,6 +199,20 @@ Output::
         <input id="id_name" type="text" name="name" maxlength="100" />
     </div>
 
+Mixing render_field and filters
+===============================
+The render_field tag and filters mentioned above can be mixed.
+
+Exmple::
+
+    {% render_field form.category|append_attr:"readonly:readonly" type="text" placeholder="Category" %}
+
+
+returns::
+
+    <input name="category" placeholder="Profession" readonly="readonly" type="text">
+
+
 Filter chaining
 ===============
 
