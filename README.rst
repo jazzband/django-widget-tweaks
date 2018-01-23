@@ -6,12 +6,12 @@ django-widget-tweaks
    :target: https://pypi.python.org/pypi/django-widget-tweaks
    :alt: PyPI Version
 
-.. image:: https://img.shields.io/travis/kmike/django-widget-tweaks/master.svg
-   :target: http://travis-ci.org/kmike/django-widget-tweaks
+.. image:: https://img.shields.io/travis/jazzband/django-widget-tweaks/master.svg
+   :target: http://travis-ci.org/jazzband/django-widget-tweaks
    :alt: Build Status
 
-.. image:: https://img.shields.io/coveralls/kmike/django-widget-tweaks/master.svg
-   :target: https://coveralls.io/r/kmike/django-widget-tweaks
+.. image:: https://img.shields.io/coveralls/jazzband/django-widget-tweaks/master.svg
+   :target: https://coveralls.io/r/jazzband/django-widget-tweaks
    :alt: Test Coverage
 
 
@@ -26,11 +26,18 @@ License is MIT.
 Installation
 ============
 
-::
+You can get Django Widget Tweaks by using pip::
 
-    pip install django-widget-tweaks
+    $ pip install django-widget-tweaks
 
-Then add 'widget_tweaks' to INSTALLED_APPS.
+To enable `widget_tweaks` in your project you need to add it to `INSTALLED_APPS` in your projects 
+`settings.py` file::
+
+    INSTALLED_APPS = [
+        ...
+        'widget_tweaks',
+        ...
+    ]
 
 Usage
 =====
@@ -231,8 +238,8 @@ Contributing
 If you've found a bug, implemented a feature or have a suggestion,
 do not hesitate to contact me, fire an issue or send a pull request.
 
-* Source code: https://github.com/kmike/django-widget-tweaks/
-* Bug tracker: https://github.com/kmike/django-widget-tweaks/issues
+* Source code: https://github.com/jazzband/django-widget-tweaks/
+* Bug tracker: https://github.com/jazzband/django-widget-tweaks/issues
 
 Testing
 -------

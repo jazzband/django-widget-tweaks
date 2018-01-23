@@ -1,5 +1,6 @@
 import re
 import types
+from copy import copy
 from django.template import Library, Node, Variable, TemplateSyntaxError
 register = Library()
 
@@ -18,6 +19,8 @@ def _process_field_attributes(field, attr, process):
     params = attr.split(':', 1)
     attribute = params[0]
     value = params[1] if len(params) == 2 else ''
+
+    field = copy(field)
 
     # decorate field.as_widget method with updated attributes
     old_as_widget = field.as_widget
@@ -190,4 +193,4 @@ class FieldAttributeNode(Node):
         for k, v in self.conditional_attrs:
             if v.resolve(context):
                 bounded_field = set_attr(bounded_field, '%s:%s' % (k, k))  # disabled="disabled"
-        return bounded_field
+        return str(bounded_field)

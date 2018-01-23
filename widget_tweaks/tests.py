@@ -1,14 +1,20 @@
 import string
 
 try:
-    from unittest import TestCase, expectedFailure
+    from unittest import TestCase, skipIf
 except ImportError:
-    from unittest2 import TestCase, expectedFailure
+    from unittest2 import TestCase, skipIf
 
-from django.forms import Form, CharField, TextInput
+from django import VERSION
 from django import forms
+from django.forms import Form, CharField, TextInput
 from django.template import Template, Context
-from django.forms.extras.widgets import SelectDateWidget
+
+try:
+    from django.forms import SelectDateWidget # django >= 2.0
+except ImportError:
+    from django.forms.extras.widgets import SelectDateWidget # django < 2.0
+
 
 # ==============================
 #       Testing helpers
@@ -155,8 +161,8 @@ class CustomizedWidgetTest(TestCase):
         assertNotIn('foo="baz"', res)
         assertIn('egg="spam"', res)
 
-    # see https://code.djangoproject.com/ticket/16754
-    @expectedFailure
+    # XXX can be dropped once 1.8 is not supported
+    @skipIf(VERSION < (1, 11, 0, 'final', 0), 'see https://code.djangoproject.com/ticket/16754')
     def test_selectdatewidget(self):
         res = render_field('date', 'attr', 'foo:bar')
         assertIn('egg="spam"', res)
@@ -242,8 +248,8 @@ class RenderFieldTagCustomizedWidgetTest(TestCase):
         assertNotIn('foo="baz"', res)
         assertIn('egg="spam"', res)
 
-    # see https://code.djangoproject.com/ticket/16754
-    @expectedFailure
+    # XXX can be dropped once 1.8 is not supported
+    @skipIf(VERSION < (1, 11, 0, 'final', 0), 'see https://code.djangoproject.com/ticket/16754')
     def test_selectdatewidget(self):
         res = render_field_from_tag('date', 'foo="bar"')
         assertIn('egg="spam"', res)
@@ -332,6 +338,48 @@ class RenderFieldTagFieldReuseTest(TestCase):
         res = render_form('{% render_field form.with_cls %}{% render_field form.with_cls class+="bar" %}{% render_field form.with_cls %}')
         self.assertEqual(res.count("class0"), 3)
         self.assertEqual(res.count("bar"), 1)
+
+    def test_field_double_rendering_id(self):
+        res = render_form(
+            '{{ form.simple }}'
+            '{% render_field form.simple id="id_1" %}'
+            '{% render_field form.simple id="id_2" %}'
+        )
+        self.assertEqual(res.count("id_1"), 1)
+        self.assertEqual(res.count("id_2"), 1)
+
+    def test_field_double_rendering_id_name(self):
+        res = render_form(
+            '{{ form.simple }}'
+            '{% render_field form.simple id="id_1" name="n_1" %}'
+            '{% render_field form.simple id="id_2" name="n_2" %}'
+        )
+        self.assertEqual(res.count("id_1"), 1)
+        self.assertEqual(res.count("id_2"), 1)
+        self.assertEqual(res.count("n_1"), 1)
+        self.assertEqual(res.count("n_2"), 1)
+
+    def test_field_double_rendering_id_class(self):
+        res = render_form(
+            '{{ form.simple }}'
+            '{% render_field form.simple id="id_1" class="c_1" %}'
+            '{% render_field form.simple id="id_2" class="c_2" %}'
+        )
+        self.assertEqual(res.count("id_1"), 1)
+        self.assertEqual(res.count("id_2"), 1)
+        self.assertEqual(res.count("c_1"), 1)
+        self.assertEqual(res.count("c_2"), 1)
+
+    def test_field_double_rendering_name_class(self):
+        res = render_form(
+            '{{ form.simple }}'
+            '{% render_field form.simple name="n_1" class="c_1" %}'
+            '{% render_field form.simple name="n_2" class="c_2" %}'
+        )
+        self.assertEqual(res.count("n_1"), 1)
+        self.assertEqual(res.count("n_2"), 1)
+        self.assertEqual(res.count("c_1"), 1)
+        self.assertEqual(res.count("c_2"), 1)
 
 
 class RenderFieldTagUseTemplateVariableTest(TestCase):
