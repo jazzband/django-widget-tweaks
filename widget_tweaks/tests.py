@@ -301,6 +301,10 @@ class RenderFieldTagCustomizedWidgetTest(TestCase):
         assertIn('data-foo="bar"', res)
         assertIn('class="class0"', res)
 
+    def test_syntax_error(self):
+        with self.assertRaises(AssertionError):
+            render_field_from_tag('with_cls', 'attr+?=1')
+
 
 class RenderFieldWidgetClassesTest(TestCase):
     def test_use_widget_required_class(self):
