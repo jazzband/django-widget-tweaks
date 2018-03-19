@@ -14,10 +14,6 @@ django-widget-tweaks
    :target: http://travis-ci.org/jazzband/django-widget-tweaks
    :alt: Build Status
 
-.. image:: https://img.shields.io/coveralls/jazzband/django-widget-tweaks/master.svg
-   :target: https://coveralls.io/r/jazzband/django-widget-tweaks
-   :alt: Test Coverage
-
 
 Tweak the form field rendering in templates, not in python-level
 form definitions. Altering CSS classes and HTML attributes is supported.
