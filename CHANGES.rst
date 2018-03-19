@@ -1,6 +1,17 @@
 Changes
 =======
 
+1.4.2 (2018-03-19)
+------------------
+
+* update readme to make installation more clear
+* shallow copy field before updating attributes
+* drop Python 2.6 and Python 3.2 support
+* always cast the result of render to a string
+* fix import for django >= 2.0
+* moved to jazzband
+
+
 1.4.1 (2015-06-29)
 ------------------
 
