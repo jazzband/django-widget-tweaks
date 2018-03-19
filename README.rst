@@ -2,6 +2,10 @@
 django-widget-tweaks
 ====================
 
+.. image:: https://jazzband.co/static/img/badge.svg
+   :target: https://jazzband.co/
+   :alt: Jazzband
+
 .. image:: https://img.shields.io/pypi/v/django-widget-tweaks.svg
    :target: https://pypi.python.org/pypi/django-widget-tweaks
    :alt: PyPI Version
