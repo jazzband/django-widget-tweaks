@@ -30,7 +30,7 @@ You can get Django Widget Tweaks by using pip::
 
     $ pip install django-widget-tweaks
 
-To enable `widget_tweaks` in your project you need to add it to `INSTALLED_APPS` in your projects 
+To enable `widget_tweaks` in your project you need to add it to `INSTALLED_APPS` in your projects
 `settings.py` file::
 
     INSTALLED_APPS = [
@@ -198,6 +198,22 @@ Output::
     <div class="field charfield textinput name">
         <input id="id_name" type="text" name="name" maxlength="100" />
     </div>
+
+
+Mixing render_field and filters
+===============================
+
+The render_field tag and filters mentioned above can be mixed.
+
+Example::
+
+    {% render_field form.category|append_attr:"readonly:readonly" type="text" placeholder="Category" %}
+
+
+returns::
+
+    <input name="category" placeholder="Profession" readonly="readonly" type="text">
+
 
 Filter chaining
 ===============
