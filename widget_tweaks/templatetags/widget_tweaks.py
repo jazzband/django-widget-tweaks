@@ -118,7 +118,7 @@ ATTRIBUTE_RE = re.compile(r"""
         [\w_-]+
     )
     (?P<sign>
-        \+?=
+        \+?\??=
     )
     (?P<value>
     ['"]? # start quote
@@ -150,6 +150,7 @@ def render_field(parser, token):
 
     set_attrs = []
     append_attrs = []
+    conditional_attrs = []
     for pair in attr_list:
         match = ATTRIBUTE_RE.match(pair)
         if not match:
@@ -158,17 +159,22 @@ def render_field(parser, token):
         attr, sign, value = dct['attr'], dct['sign'], parser.compile_filter(dct['value'])
         if sign == "=":
             set_attrs.append((attr, value))
-        else:
+        elif sign == '+=':
             append_attrs.append((attr, value))
+        elif sign == '?=':
+            conditional_attrs.append((attr, value))
+        else:
+            assert False, "unknown sign: %s" % sign
 
-    return FieldAttributeNode(form_field, set_attrs, append_attrs)
+    return FieldAttributeNode(form_field, set_attrs, append_attrs, conditional_attrs)
 
 
 class FieldAttributeNode(Node):
-    def __init__(self, field, set_attrs, append_attrs):
+    def __init__(self, field, set_attrs, append_attrs, conditional_attrs):
         self.field = field
         self.set_attrs = set_attrs
         self.append_attrs = append_attrs
+        self.conditional_attrs = conditional_attrs
 
     def render(self, context):
         bounded_field = self.field.resolve(context)
@@ -184,4 +190,7 @@ class FieldAttributeNode(Node):
             bounded_field = set_attr(bounded_field, '%s:%s' % (k,v.resolve(context)))
         for k, v in self.append_attrs:
             bounded_field = append_attr(bounded_field, '%s:%s' % (k,v.resolve(context)))
+        for k, v in self.conditional_attrs:
+            if v.resolve(context):
+                bounded_field = set_attr(bounded_field, '%s:%s' % (k, k))  # disabled="disabled"
         return str(bounded_field)
