@@ -10,14 +10,6 @@ sys.path.insert(0, os.path.abspath(os.path.dirname(__file__)))
 
 opts = {'INSTALLED_APPS': ['widget_tweaks']}
 
-if django.VERSION[:2] < (1, 5):
-    opts['DATABASES'] = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': ':MEMORY:',
-        }
-    }
-
 if django.VERSION[:2] >= (1, 10):
     opts['TEMPLATES'] = [
         {
@@ -26,9 +18,7 @@ if django.VERSION[:2] >= (1, 10):
     ]
 
 settings.configure(**opts)
-
-if django.VERSION[:2] >= (1, 7):
-    django.setup()
+django.setup()
 
 if __name__ == "__main__":
     call_command('test', 'widget_tweaks', verbosity=2)
