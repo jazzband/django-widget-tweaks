@@ -1,7 +1,7 @@
 import re
 import types
 from copy import copy
-from django.template import Library, Node, Variable, TemplateSyntaxError
+from django.template import Library, Node, TemplateSyntaxError
 register = Library()
 
 
@@ -127,6 +127,7 @@ ATTRIBUTE_RE = re.compile(r"""
     )
 """, re.VERBOSE | re.UNICODE)
 
+
 @register.tag
 def render_field(parser, token):
     """
@@ -155,7 +156,8 @@ def render_field(parser, token):
         if not match:
             raise TemplateSyntaxError(error_msg + ": %s" % pair)
         dct = match.groupdict()
-        attr, sign, value = dct['attr'], dct['sign'], parser.compile_filter(dct['value'])
+        attr, sign, value = \
+            dct['attr'], dct['sign'], parser.compile_filter(dct['value'])
         if sign == "=":
             set_attrs.append((attr, value))
         else:
@@ -173,8 +175,10 @@ class FieldAttributeNode(Node):
     def render(self, context):
         bounded_field = self.field.resolve(context)
         field = getattr(bounded_field, 'field', None)
-        if (getattr(bounded_field, 'errors', None) and
-            'WIDGET_ERROR_CLASS' in context):
+        if (
+            getattr(bounded_field, 'errors', None) and
+            'WIDGET_ERROR_CLASS' in context
+        ):
             bounded_field = append_attr(bounded_field, 'class:%s' %
                                         context['WIDGET_ERROR_CLASS'])
         if field and field.required and 'WIDGET_REQUIRED_CLASS' in context:
@@ -184,7 +188,10 @@ class FieldAttributeNode(Node):
             if k == 'type':
                 bounded_field.field.widget.input_type = v.resolve(context)
             else:
-                bounded_field = set_attr(bounded_field, '%s:%s' % (k,v.resolve(context)))
+                bounded_field = \
+                    set_attr(bounded_field, '%s:%s' % (k, v.resolve(context)))
         for k, v in self.append_attrs:
-            bounded_field = append_attr(bounded_field, '%s:%s' % (k,v.resolve(context)))
+            bounded_field = \
+                append_attr(bounded_field, '%s:%s' % (k, v.resolve(context)))
+
         return str(bounded_field)

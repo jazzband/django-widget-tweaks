@@ -11,9 +11,9 @@ from django.forms import Form, CharField, TextInput
 from django.template import Template, Context
 
 try:
-    from django.forms import SelectDateWidget # django >= 2.0
+    from django.forms import SelectDateWidget  # django >= 2.0
 except ImportError:
-    from django.forms.extras.widgets import SelectDateWidget # django < 2.0
+    from django.forms.extras.widgets import SelectDateWidget  # django < 2.0
 
 
 # ==============================
@@ -28,10 +28,10 @@ class MyForm(Form):
     """
     simple = CharField()
     with_attrs = CharField(widget=TextInput(attrs={
-                    'foo': 'baz',
-                    'egg': 'spam'
-                 }))
-    with_cls = CharField(widget=TextInput(attrs={'class':'class0'}))
+        'foo': 'baz',
+        'egg': 'spam'
+    }))
+    with_cls = CharField(widget=TextInput(attrs={'class': 'class0'}))
     date = forms.DateField(widget=SelectDateWidget(attrs={'egg': 'spam'}))
 
 
