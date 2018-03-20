@@ -1,14 +1,8 @@
 import re
 import types
 from copy import copy
-import django
 from django.template import Library, Node, TemplateSyntaxError
-from django.utils.safestring import mark_safe
-
 register = Library()
-
-
-BACKWARDS_COMPATIBILITY = django.VERSION[:2] < (1, 8)
 
 
 def silence_without_field(fn):
@@ -25,8 +19,6 @@ def _process_field_attributes(field, attr, process):
     params = attr.split(':', 1)
     attribute = params[0]
     value = params[1] if len(params) == 2 else True
-    if BACKWARDS_COMPATIBILITY and value is True:
-        value = '__BACKWARDS_COMPATIBILITY__'
 
     field = copy(field)
 
@@ -37,8 +29,6 @@ def _process_field_attributes(field, attr, process):
         attrs = attrs or {}
         process(widget or self.field.widget, attrs, attribute, value)
         html = old_as_widget(widget, attrs, only_initial)
-        if BACKWARDS_COMPATIBILITY:
-            html = mark_safe(html.replace('="__BACKWARDS_COMPATIBILITY__"', ''))
         self.as_widget = old_as_widget
         return html
 
