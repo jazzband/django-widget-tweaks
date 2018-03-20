@@ -382,14 +382,14 @@ class RenderFieldFilter_field_type_widget_type_Test(TestCase):
 
 class RenderFieldTagNonValueAttribute(TestCase):
     def test_field_non_value(self):
-        res = render_form("{{ form.simple|attr:'required' }}", form=MyForm({}))
-        assertIn('required', res)
-        assertNotIn('required=', res)
+        res = render_form('{{ form.simple|attr:"foo" }}')
+        assertIn('foo', res)
+        assertNotIn('foo=', res)
 
     def test_field_empty_value(self):
-        res = render_form("{{ form.simple|attr:'required:' }}", form=MyForm({}))
-        assertIn('required=""', res)
+        res = render_form('{{ form.simple|attr:"foo:" }}')
+        assertIn('foo=""', res)
 
     def test_field_other_value(self):
-        res = render_form("{{ form.simple|attr:'required:spam' }}", form=MyForm({}))
-        assertIn('required="spam"', res)
+        res = render_form('{{ form.simple|attr:"foo:bar" }}')
+        assertIn('foo="bar"', res)
