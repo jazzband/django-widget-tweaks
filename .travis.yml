@@ -14,7 +14,7 @@ deploy:
   server: https://jazzband.co/projects/django-widget-tweaks/upload
   distributions: sdist bdist_wheel
   password:
-    secure: fvFbH0oZGYDad2rik7v0L+G4ItH0g/2v8hoBSajeyt/nEyoEShTh2xBwo5413NGkDaIYtYpP/MVqBy02uMc8oSNgh/rS1tIjiIKE77/YJNuZHyQXnZ+90JA+yGaJc5dOyd4G3szEp2Zzi18ov2KkCt37/arObu8bEbChWaEoJqI=
+    secure: hW8AcAymkogDbN2ZZ6KQBynTRMap30xAL33HtG4WDkh1+maGpkVAXn/HvLqrRkO/bh1h85uVS2QhRZifX3eKxxNc83Rp6YACQMobW2xBPrXdMIxl5t1t7R8e14pW6XWb6Xjy/zdmZd/b6m1Q3K1a6GvNqTxkfylVfAgJ8gBfRAs=
   on:
     tags: true
     repo: jazzband/django-widget-tweaks
