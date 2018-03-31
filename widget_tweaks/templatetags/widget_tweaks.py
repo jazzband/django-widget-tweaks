@@ -18,7 +18,7 @@ def _process_field_attributes(field, attr, process):
     # split attribute name and value from 'attr:value' string
     params = attr.split(':', 1)
     attribute = params[0]
-    value = params[1] if len(params) == 2 else ''
+    value = params[1] if len(params) == 2 else True
 
     field = copy(field)
 
