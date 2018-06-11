@@ -14,11 +14,14 @@ def silence_without_field(fn):
 
 
 def _process_field_attributes(field, attr, process):
+    colon_special = '&colon;'
 
     # split attribute name and value from 'attr:value' string
+    attr.replace('\\:', colon_special)
     params = attr.split(':', 1)
-    attribute = params[0]
-    value = params[1] if len(params) == 2 else True
+
+    attribute = params[0].replace(colon_special, ':')
+    value = params[1].replace(colon_special, ':') if len(params) == 2 else True
 
     field = copy(field)
 
