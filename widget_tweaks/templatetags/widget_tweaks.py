@@ -17,7 +17,7 @@ def _process_field_attributes(field, attr, process):
     colon_special = '&colon;'
 
     # split attribute name and value from 'attr:value' string
-    attr.replace('\\:', colon_special)
+    attr = attr.replace('\\:', colon_special)
     params = attr.split(':', 1)
 
     attribute = params[0].replace(colon_special, ':')
