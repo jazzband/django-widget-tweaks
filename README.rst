@@ -153,6 +153,20 @@ Example::
 'add_class' filter is just a shortcut for 'append_attr' filter that
 adds values to the 'class' attribute.
 
+
+add_label_class
+---------
+
+The same as `add_class` but adds css class to form labels.
+
+Example::
+
+    {% load widget_tweaks %}
+
+    <!-- add 2 extra css classes to field label element -->
+    {{ form.title|add_label_class:"label_class_1 label_class_2" }}
+
+
 add_error_class
 ---------------
 

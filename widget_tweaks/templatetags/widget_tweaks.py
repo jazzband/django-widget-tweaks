@@ -73,6 +73,12 @@ def add_class(field, css_class):
     return append_attr(field, 'class:' + css_class)
 
 
+@register.filter("add_label_class")
+@silence_without_field
+def add_label_class(field, css_class):
+    return field.label_tag(attrs={'class': css_class})
+
+
 @register.filter("add_error_class")
 @silence_without_field
 def add_error_class(field, css_class):
