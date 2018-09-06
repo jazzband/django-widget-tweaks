@@ -1,6 +1,15 @@
 Changes
 =======
 
+1.4.3 (2018-09-6)
+------------------
+
+* Added add_label_class filter for CSS on form labels
+* Removed compatibility code for unsupported Django versions
+* Fixed support for non-value attributes in Django < 1.8
+* Support non-value attributes in HTML5 by setting their value to True
+
+
 1.4.2 (2018-03-19)
 ------------------
 
