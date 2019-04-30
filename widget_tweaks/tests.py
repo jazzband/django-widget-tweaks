@@ -393,3 +393,22 @@ class RenderFieldTagNonValueAttribute(TestCase):
     def test_field_other_value(self):
         res = render_form('{{ form.simple|attr:"foo:bar" }}')
         assertIn('foo="bar"', res)
+
+    def test_field_double_colon(self):
+        res = render_form('{{ form.simple|attr:"v-bind::class:value" }}')
+        assertIn('v-bind:class="value"', res)
+
+    def test_field_double_colon_morethanone(self):
+        res = render_form('{{ form.simple|attr:"v-bind::class:{active:True}" }}')
+        assertIn('v-bind:class="{active:True}"', res)
+    def test_field_arroba(self):
+        res = render_form('{{ form.simple|attr:"@click:onClick" }}')
+        assertIn('@click="onClick"', res)
+    def test_field_arroba_dot(self):
+        res = render_form('{{ form.simple|attr:"@click.prevent:onClick" }}')
+        assertIn('@click.prevent="onClick"', res)
+
+    def test_field_double_colon_missing(self):
+        res = render_form('{{ form.simple|attr:"::class:{active:True}" }}')
+        assertIn(':class="{active:True}"', res)
+
