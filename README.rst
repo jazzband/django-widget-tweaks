@@ -78,6 +78,10 @@ Example::
     <!-- template variables can be used as attribute values -->
     {% render_field form.text placeholder=form.text.label %}
 
+    <!-- double colon -->
+    {% render_field form.search_query v-bind::class="{active:isActive}" %}
+
+
 For fields rendered with ``{% render_field %}`` tag it is possible
 to set error class and required fields class by using
 ``WIDGET_ERROR_CLASS`` and  ``WIDGET_REQUIRED_CLASS`` template variables::
@@ -109,6 +113,10 @@ Examples::
 
     <!-- attributes without parameters -->
     {{ form.search_query|attr:"autofocus" }}
+
+
+    <!-- attributes with double colon Vuejs output: v-bind:class="{active:ValueEnabled}" -->
+    {{ form.search_query|attr:"v-bind::class:{active:ValueEnabled}" }}
 
 
 add_class
