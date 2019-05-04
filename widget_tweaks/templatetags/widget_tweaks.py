@@ -16,8 +16,11 @@ def silence_without_field(fn):
 def _process_field_attributes(field, attr, process):
 
     # split attribute name and value from 'attr:value' string
-    params = attr.split(':', 1)
-    attribute = params[0]
+    #params = attr.split(':', 1)
+    #attribute = params[0]
+    params = re.split(r'(?<!:):(?!:)', attr, 1)
+    #attribute = params[0]	    
+    attribute = params[0].replace('::', ':')
     value = params[1] if len(params) == 2 else True
 
     field = copy(field)
@@ -121,7 +124,7 @@ def widget_type(field):
 
 ATTRIBUTE_RE = re.compile(r"""
     (?P<attr>
-        [\w_-]+
+        [@\w:_-]+
     )
     (?P<sign>
         \+?=
@@ -199,5 +202,4 @@ class FieldAttributeNode(Node):
         for k, v in self.append_attrs:
             bounded_field = \
                 append_attr(bounded_field, '%s:%s' % (k, v.resolve(context)))
-
         return str(bounded_field)
