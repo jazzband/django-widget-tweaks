@@ -24,17 +24,19 @@ def _process_field_attributes(field, attr, process):
     value = params[1] if len(params) == 2 else True
 
     field = copy(field)
-
+   
     # decorate field.as_widget method with updated attributes
     old_as_widget = field.as_widget
-
+    
     def as_widget(self, widget=None, attrs=None, only_initial=False):
         attrs = attrs or {}
         process(widget or self.field.widget, attrs, attribute, value)
+        if attribute == "type": # change the Input type
+            self.field.widget.input_type = value
+            del attrs["type"]
         html = old_as_widget(widget, attrs, only_initial)
         self.as_widget = old_as_widget
         return html
-
     field.as_widget = types.MethodType(as_widget, field)
     return field
 
@@ -45,7 +47,6 @@ def set_attr(field, attr):
 
     def process(widget, attrs, attribute, value):
         attrs[attribute] = value
-
     return _process_field_attributes(field, attr, process)
 
 

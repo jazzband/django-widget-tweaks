@@ -21,4 +21,6 @@ settings.configure(**opts)
 django.setup()
 
 if __name__ == "__main__":
-    call_command('test', 'widget_tweaks', verbosity=2)
+
+    param = "" if not len(sys.argv) >= 2  else "." +str(sys.argv[1])
+    call_command('test', 'widget_tweaks{}'.format(param), verbosity=2)
