@@ -99,7 +99,7 @@ set a default CSS error class on all fields rendered by
 
 attr
 ----
-Adds or replaces any single html atribute for the form field.
+Adds or replaces any single html attribute for the form field.
 
 Examples::
 
@@ -149,7 +149,7 @@ Example::
 append_attr
 -----------
 
-Appends atribute value with extra data.
+Appends attribute value with extra data.
 
 Example::
 
@@ -294,7 +294,3 @@ NOT SUPPORTED
 =============
 
 MultiWidgets: SplitDateTimeWidget, SplitHiddenDateTimeWidget
-
-
-
-
