@@ -14,24 +14,21 @@ def silence_without_field(fn):
 
 
 def _process_field_attributes(field, attr, process):
-
     # split attribute name and value from 'attr:value' string
-    #params = attr.split(':', 1)
-    #attribute = params[0]
+    # params = attr.split(':', 1)
+    # attribute = params[0]
     params = re.split(r'(?<!:):(?!:)', attr, 1)
-    #attribute = params[0]	    
+    # attribute = params[0]
     attribute = params[0].replace('::', ':')
     value = params[1] if len(params) == 2 else True
-
     field = copy(field)
-   
     # decorate field.as_widget method with updated attributes
     old_as_widget = field.as_widget
-    
+
     def as_widget(self, widget=None, attrs=None, only_initial=False):
         attrs = attrs or {}
         process(widget or self.field.widget, attrs, attribute, value)
-        if attribute == "type": # change the Input type
+        if attribute == "type":  # change the Input type
             self.field.widget.input_type = value
             del attrs["type"]
         html = old_as_widget(widget, attrs, only_initial)

@@ -124,6 +124,7 @@ class SimpleAttrTest(TestCase):
         self.assertTrue(res.count("type=") == 1, (res, res.count("type=")))
         assertIn('type="date"', res)
 
+    def test_replace_hidden(self):
         res = render_field('simple', 'attr', 'type:hidden')
         self.assertTrue(res.count("type=") == 1, (res, res.count("type=")))
         assertIn('type="hidden"', res)
