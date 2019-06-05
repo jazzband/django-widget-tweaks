@@ -21,5 +21,10 @@ settings.configure(**opts)
 django.setup()
 
 if __name__ == "__main__":
-    param = "" if not len(sys.argv) >= 2  else "." +str(sys.argv[1])
-    call_command('test', 'widget_tweaks{}'.format(param), verbosity=2)
+    if len(sys.argv) > 1:
+        # Allow running specific tests with arguments e.g.
+        # tox -e py36-django-20 -- tests.RenderFieldTagFieldReuseTest.test_field_datetime_widget
+        test_name = sys.argv[1]
+        call_command('test', 'widget_tweaks.{test_name}'.format(test_name=test_name), verbosity=2)
+    else:
+        call_command('test', 'widget_tweaks', verbosity=2)
