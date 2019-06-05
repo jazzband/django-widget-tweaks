@@ -1,6 +1,14 @@
 Changes
 =======
 
+1.4.4 (2019-06-05)
+------------------
+
+* Add support for type attr.
+* Add Python 3.7 and drop Python 3.3 support.
+* Add support for double colon syntax.
+
+
 1.4.3 (2018-09-6)
 ------------------
 
