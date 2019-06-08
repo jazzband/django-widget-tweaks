@@ -163,7 +163,7 @@ adds values to the 'class' attribute.
 
 
 add_label_class
----------
+---------------
 
 The same as `add_class` but adds css class to form labels.
 
