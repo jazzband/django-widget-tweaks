@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 from setuptools import setup
 
-version = '1.4.4'
+version = '1.4.5'
 
 setup(
     name='django-widget-tweaks',
