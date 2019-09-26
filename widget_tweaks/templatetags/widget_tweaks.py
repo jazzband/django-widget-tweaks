@@ -200,3 +200,13 @@ class FieldAttributeNode(Node):
             bounded_field = \
                 append_attr(bounded_field, '%s:%s' % (k, v.resolve(context)))
         return str(bounded_field)
+
+
+# ======================== remove_attr tag ==============================
+
+@register.filter("remove_attr")
+@silence_without_field
+def remove_attr(field, attr):
+    if attr in field.field.widget.attrs:
+        del field.field.widget.attrs[attr]
+    return field

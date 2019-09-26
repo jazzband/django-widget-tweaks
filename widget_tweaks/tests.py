@@ -162,6 +162,8 @@ class SilenceTest(TestCase):
         self.assertEqual(res, "")
         res = render_field("nothing", 'add_class', 'some')
         self.assertEqual(res, "")
+        res = render_field("nothing", 'remove_attr', 'some')
+        self.assertEqual(res, "")
 
 
 class CustomizedWidgetTest(TestCase):
@@ -205,6 +207,10 @@ class CustomizedWidgetTest(TestCase):
         assertIn('class0', res)
         assertIn('class1', res)
         assertIn('class2', res)
+
+    def test_remove_attr(self):
+        res = render_field('with_attrs', 'remove_attr', 'foo')
+        assertNotIn('foo', res)
 
 
 class FieldReuseTest(TestCase):
