@@ -162,6 +162,18 @@ Example::
 adds values to the 'class' attribute.
 
 
+remove_attr
+-----------
+Removes any single html attribute for the form field.
+
+Example::
+
+    {% load widget_tweaks %}
+
+    <!-- removes autofocus attribute from field element -->
+    {{ form.title|remove_attr:"autofocus" }}
+
+
 add_label_class
 ---------------
 
