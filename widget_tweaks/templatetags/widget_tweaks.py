@@ -94,7 +94,7 @@ def add_error_class(field, css_class):
 
 @register.filter("add_required_class")
 @silence_without_field
-def add_requierd_class(field, css_class):
+def add_required_class(field, css_class):
     if hasattr(field.field, "required") and field.field.required:
         return add_class(field, css_class)
     return field
