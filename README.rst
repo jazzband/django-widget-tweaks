@@ -213,6 +213,19 @@ with accessibility::
     <!-- add aria-invalid="true" attribute on field error -->
     {{ form.title|add_error_attr:"aria-invalid:true" }}
 
+add_required_class
+------------------
+
+The same as 'add_error_class' adds css class only for required field.
+
+Example::
+
+    {% load widget_tweaks %}
+
+    <!-- add 'is-required' css class on field required -->
+    {{ form.title|add_required_class:"is-required" }}
+
+
 field_type and widget_type
 --------------------------
 
