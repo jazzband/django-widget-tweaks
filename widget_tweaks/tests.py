@@ -145,6 +145,16 @@ class ErrorsTest(TestCase):
         res = render_field("simple", "add_error_class", "err", form=form)
         assertIn('class="err"', res)
 
+    def test_required_class(self):
+        res = render_field("simple", "add_required_class", "is-required")
+        assertIn('class="is-required"', res)
+
+    def test_required_class_requiredfield(self):
+        form = self._err_form()
+        res = render_field("simple", "add_required_class", "is-required", form=form)
+        assertIn('class="is-required"', res)
+        assertIn("required", res)
+
     def test_error_attr_no_error(self):
         res = render_field("simple", "add_error_attr", "aria-invalid:true")
         assertNotIn('aria-invalid="true"', res)
