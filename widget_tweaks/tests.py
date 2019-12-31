@@ -418,6 +418,10 @@ class RenderFieldTagFieldReuseTest(TestCase):
         self.assertEqual(res.count("c_1"), 1)
         self.assertEqual(res.count("c_2"), 1)
 
+    def test_field_double_rendering_simple(self):
+        res = render_form('{% render_field form.simple foo="bar" v-model="username" %}')
+        self.assertEqual(res.count('v-model="username"'), 1)
+
 
 class RenderFieldTagUseTemplateVariableTest(TestCase):
     def test_use_template_variable_in_parametrs(self):
