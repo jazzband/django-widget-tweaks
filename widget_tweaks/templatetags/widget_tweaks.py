@@ -44,7 +44,7 @@ def _process_field_attributes(field, attr, process):
 @register.filter("attr")
 @silence_without_field
 def set_attr(field, attr):
-    def process(widget, attrs, attribute, value):
+    def process(widget, attrs, attribute, value):  # pylint: disable=unused-argument
         attrs[attribute] = value
 
     return _process_field_attributes(field, attr, process)
@@ -170,7 +170,7 @@ def render_field(parser, token):
     )
     try:
         bits = token.split_contents()
-        tag_name = bits[0]
+        tag_name = bits[0]  # noqa
         form_field = bits[1]
         attr_list = bits[2:]
     except ValueError:
