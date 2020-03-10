@@ -2,7 +2,7 @@ Changes
 =======
 
 
-1.4.7 (2020-03-09)
+1.4.7 (2020-03-10)
 ------------------
 
 * Fix Travis deployment to Jazzband site
