@@ -24,9 +24,7 @@ jobs:
     - stage: deploy
       env:
       python: 3.6
-      install: skip
       script: skip
-      after_success: skip
       deploy:
         provider: pypi
         user: jazzband
@@ -34,6 +32,7 @@ jobs:
         distributions: sdist bdist_wheel
         password:
           secure: hW8AcAymkogDbN2ZZ6KQBynTRMap30xAL33HtG4WDkh1+maGpkVAXn/HvLqrRkO/bh1h85uVS2QhRZifX3eKxxNc83Rp6YACQMobW2xBPrXdMIxl5t1t7R8e14pW6XWb6Xjy/zdmZd/b6m1Q3K1a6GvNqTxkfylVfAgJ8gBfRAs=
+        skip_existing: true
         on:
           tags: true
           repo: jazzband/django-widget-tweaks
