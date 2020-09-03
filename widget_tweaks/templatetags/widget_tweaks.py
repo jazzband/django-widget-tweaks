@@ -139,7 +139,7 @@ def widget_type(field):
 ATTRIBUTE_RE = re.compile(
     r"""
     (?P<attr>
-        [@\w:_-]+
+        [@\w:_\.-]+
     )
     (?P<sign>
         \+?=

@@ -322,6 +322,11 @@ class RenderFieldTagCustomizedWidgetTest(TestCase):
         assertIn('data-foo="bar"', res)
         assertIn('class="class0"', res)
 
+    def test_alpinejs_event_modifier(self):
+        res = render_field_from_tag("simple", '@click.away="open=false"', 'x-on::click.away="open=false"')
+        assertIn('@click.away="open=false"', res)
+        assertIn('x-on:click.away="open=false"', res)
+
 
 class RenderFieldWidgetClassesTest(TestCase):
     def test_use_widget_required_class(self):
