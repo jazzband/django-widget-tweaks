@@ -12,7 +12,9 @@ opts = {"INSTALLED_APPS": ["widget_tweaks"]}
 
 if django.VERSION[:2] >= (1, 10):
     opts["TEMPLATES"] = [
-        {"BACKEND": "django.template.backends.django.DjangoTemplates",},
+        {
+            "BACKEND": "django.template.backends.django.DjangoTemplates",
+        },
     ]
 
 settings.configure(**opts)
