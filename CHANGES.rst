@@ -1,6 +1,14 @@
 Changes
 =======
 
+Unreleased
+----------
+
+* Move to GitHub Actions.
+
+* Drop support for Django 1.11.
+
+* Add support for Python 3.9.
 
 1.4.8 (2020-03-12)
 ------------------
