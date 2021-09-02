@@ -1,14 +1,15 @@
 Changes
 =======
 
-Unreleased
-----------
 
+1.4.9 (2021-09-02)
+------------------
+
+* Add support for Django 3.2
 * Move to GitHub Actions.
-
 * Drop support for Django 1.11.
-
 * Add support for Python 3.9.
+
 
 1.4.8 (2020-03-12)
 ------------------
