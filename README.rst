@@ -318,7 +318,3 @@ Make sure you have `tox <http://tox.testrun.org/>`_ installed, then type
 
 from the source checkout.
 
-NOT SUPPORTED
-=============
-
-MultiWidgets: SplitDateTimeWidget, SplitHiddenDateTimeWidget
