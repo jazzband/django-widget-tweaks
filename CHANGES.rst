@@ -2,8 +2,8 @@ Changes
 =======
 
 
-1.4.10 (2022-01-08)
-------------------
+1.4.11 (2022-01-08)
+-------------------
 
 * Add support for Django 4.0
 * Drop support for Django 3.0 and 3.1
