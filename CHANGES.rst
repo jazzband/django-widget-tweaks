@@ -2,6 +2,14 @@ Changes
 =======
 
 
+1.4.12 (2022-01-13)
+-------------------
+
+* Set minimum required Python version to 3.7.
+* Add better documentation syntax highlighting.
+* Adjust build settings and stop building deprecated universal Python 2 wheels.
+
+
 1.4.11 (2022-01-08)
 -------------------
 
