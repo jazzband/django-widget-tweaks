@@ -12,7 +12,7 @@ setup(
     long_description=open("README.rst").read() + "\n\n" + open("CHANGES.rst").read(),
     long_description_content_type="text/x-rst",
     license="MIT license",
-    python_requires=">=3.6",
+    python_requires=">=3.7",
     requires=["django (>=2.2)"],
     packages=["widget_tweaks", "widget_tweaks.templatetags"],
     classifiers=[
