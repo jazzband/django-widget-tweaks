@@ -1,6 +1,14 @@
 Changes
 =======
 
+Unreleased
+----------
+
+* Removed usage of pkg_resource to avoid derecation
+  warnings. If you want to inspect the installed version,
+  use ``importlib.metadata.version("django-widget-tweaks")``
+  (`docs <https://docs.python.org/3.8/library/importlib.metadata.html#distribution-versions>`__ /
+  `backport <https://pypi.org/project/importlib-metadata/>`__).
 
 1.4.12 (2022-01-13)
 -------------------
