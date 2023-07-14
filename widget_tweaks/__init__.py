@@ -1,7 +1,3 @@
-from pkg_resources import get_distribution, DistributionNotFound
+from importlib.metadata import version
 
-try:
-    __version__ = get_distribution("django-widget-tweaks").version
-except DistributionNotFound:
-    # package is not installed
-    __version__ = None
+__version__ = version("django-widget-tweaks")
