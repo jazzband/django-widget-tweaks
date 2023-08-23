@@ -155,7 +155,7 @@ ATTRIBUTE_RE = re.compile(
 
 
 @register.tag
-def render_field(parser, token):
+def render_field(parser, token):  # pylint: disable=too-many-locals
     """
     Render a form field using given attribute-value pairs
 
@@ -165,16 +165,16 @@ def render_field(parser, token):
     or attribute+="value" for appending.
     """
     error_msg = (
-        '%r tag requires a form field followed by a list of attributes and values in the form attr="value"'
-        % token.split_contents()[0]
+        f"{token.split_contents()[0]!r} tag requires a form field followed by "
+        'a list of attributes and values in the form attr="value"'
     )
     try:
         bits = token.split_contents()
         tag_name = bits[0]  # noqa
         form_field = bits[1]
         attr_list = bits[2:]
-    except ValueError:
-        raise TemplateSyntaxError(error_msg)
+    except ValueError as exc:
+        raise TemplateSyntaxError(error_msg) from exc
 
     form_field = parser.compile_filter(form_field)
 
@@ -183,7 +183,7 @@ def render_field(parser, token):
     for pair in attr_list:
         match = ATTRIBUTE_RE.match(pair)
         if not match:
-            raise TemplateSyntaxError(error_msg + ": %s" % pair)
+            raise TemplateSyntaxError(error_msg + f": {pair}")
         dct = match.groupdict()
         attr, sign, value = (
             dct["attr"],
@@ -209,23 +209,19 @@ class FieldAttributeNode(Node):
         field = getattr(bounded_field, "field", None)
         if getattr(bounded_field, "errors", None) and "WIDGET_ERROR_CLASS" in context:
             bounded_field = append_attr(
-                bounded_field, "class:%s" % context["WIDGET_ERROR_CLASS"]
+                bounded_field, f'class:{context["WIDGET_ERROR_CLASS"]}'
             )
         if field and field.required and "WIDGET_REQUIRED_CLASS" in context:
             bounded_field = append_attr(
-                bounded_field, "class:%s" % context["WIDGET_REQUIRED_CLASS"]
+                bounded_field, f"class:{context['WIDGET_REQUIRED_CLASS']}"
             )
         for k, v in self.set_attrs:
             if k == "type":
                 bounded_field.field.widget.input_type = v.resolve(context)
             else:
-                bounded_field = set_attr(
-                    bounded_field, "%s:%s" % (k, v.resolve(context))
-                )
+                bounded_field = set_attr(bounded_field, f"{k}:{v.resolve(context)}")
         for k, v in self.append_attrs:
-            bounded_field = append_attr(
-                bounded_field, "%s:%s" % (k, v.resolve(context))
-            )
+            bounded_field = append_attr(bounded_field, f"{k}:{v.resolve(context)}")
         return str(bounded_field)
 
 
