@@ -1,3 +1,7 @@
-from importlib.metadata import version
+from importlib.metadata import version, PackageNotFoundError
 
-__version__ = version("django-widget-tweaks")
+try:
+    __version__ = version("django-widget-tweaks")
+except PackageNotFoundError:
+    # package is not installed
+    __version__ = None
