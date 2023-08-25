@@ -34,12 +34,12 @@ You can get Django Widget Tweaks by using pip::
     $ pip install django-widget-tweaks
 
 To enable `widget_tweaks` in your project you need to add it to `INSTALLED_APPS` in your projects
-`settings.py` file::
+`settings.py` file:
 
-    INSTALLED_APPS = [
-        ...
+.. code-block:: python
+
+    INSTALLED_APPS += [
         'widget_tweaks',
-        ...
     ]
 
 Usage
@@ -65,7 +65,9 @@ This is a template tag that can be used as an alternative to aforementioned
 filters.  This template tag renders a field using a syntax similar to plain
 HTML attributes.
 
-Example::
+Example:
+
+.. code-block:: html+django
 
     {% load widget_tweaks %}
 
@@ -87,7 +89,9 @@ Example::
 
 For fields rendered with ``{% render_field %}`` tag it is possible
 to set error class and required fields class by using
-``WIDGET_ERROR_CLASS`` and  ``WIDGET_REQUIRED_CLASS`` template variables::
+``WIDGET_ERROR_CLASS`` and  ``WIDGET_REQUIRED_CLASS`` template variables:
+
+.. code-block:: html+django
 
     {% with WIDGET_ERROR_CLASS='my_error' WIDGET_REQUIRED_CLASS='my_required' %}
         {% render_field form.field1 %}
@@ -104,7 +108,9 @@ attr
 ----
 Adds or replaces any single html attribute for the form field.
 
-Examples::
+Examples:
+
+.. code-block:: html+django
 
     {% load widget_tweaks %}
 
@@ -128,7 +134,9 @@ add_class
 Adds CSS class to field element. Split classes by whitespace in order to add
 several classes at once.
 
-Example::
+Example:
+
+.. code-block:: html+django
 
     {% load widget_tweaks %}
 
@@ -142,7 +150,9 @@ Sets HTML5 data attribute ( http://ejohn.org/blog/html-5-data-attributes/ ).
 Useful for unobtrusive javascript. It is just a shortcut for 'attr' filter
 that prepends attribute names with 'data-' string.
 
-Example::
+Example:
+
+.. code-block:: html+django
 
     {% load widget_tweaks %}
 
@@ -154,7 +164,9 @@ append_attr
 
 Appends attribute value with extra data.
 
-Example::
+Example:
+
+.. code-block:: html+django
 
     {% load widget_tweaks %}
 
@@ -169,7 +181,9 @@ remove_attr
 -----------
 Removes any single html attribute for the form field.
 
-Example::
+Example:
+
+.. code-block:: html+django
 
     {% load widget_tweaks %}
 
@@ -182,7 +196,9 @@ add_label_class
 
 The same as `add_class` but adds css class to form labels.
 
-Example::
+Example:
+
+.. code-block:: html+django
 
     {% load widget_tweaks %}
 
@@ -196,7 +212,9 @@ add_error_class
 The same as 'add_class' but adds css class only if validation failed for
 the field (field.errors is not empty).
 
-Example::
+Example:
+
+.. code-block:: html+django
 
     {% load widget_tweaks %}
 
@@ -209,7 +227,9 @@ add_error_attr
 
 The same as 'attr' but sets an attribute only if validation failed for
 the field (field.errors is not empty). This can be useful when dealing
-with accessibility::
+with accessibility:
+
+.. code-block:: html+django
 
     {% load widget_tweaks %}
 
@@ -221,7 +241,9 @@ add_required_class
 
 The same as 'add_error_class' adds css class only for required field.
 
-Example::
+Example:
+
+.. code-block:: html+django
 
     {% load widget_tweaks %}
 
@@ -235,7 +257,9 @@ field_type and widget_type
 ``'field_type'`` and ``'widget_type'`` are template filters that return
 field class name and field widget class name (in lower case).
 
-Example::
+Example:
+
+.. code-block:: html+django
 
     {% load widget_tweaks %}
 
@@ -243,7 +267,9 @@ Example::
         {{ field }}
     </div>
 
-Output::
+Output:
+
+.. code-block:: html+django
 
     <div class="field charfield textinput name">
         <input id="id_name" type="text" name="name" maxlength="100" />
@@ -255,12 +281,16 @@ Mixing render_field and filters
 
 The render_field tag and filters mentioned above can be mixed.
 
-Example::
+Example:
+
+.. code-block:: html+django
 
     {% render_field form.category|append_attr:"readonly:readonly" type="text" placeholder="Category" %}
 
 
-returns::
+returns:
+
+.. code-block:: html+django
 
     <input name="category" placeholder="Profession" readonly="readonly" type="text">
 
@@ -269,24 +299,32 @@ Filter chaining
 ===============
 
 The order django-widget-tweaks filters apply may seem counter-intuitive
-(leftmost filter wins)::
+(leftmost filter wins):
+
+.. code-block:: html+django
 
     {{ form.simple|attr:"foo:bar"|attr:"foo:baz" }}
 
-returns::
+returns:
+
+.. code-block:: html+django
 
     <input foo="bar" type="text" name="simple" id="id_simple" />
 
 It is not a bug, it is a feature that enables creating reusable templates
 with overridable defaults.
 
-Reusable field template example::
+Reusable field template example:
+
+.. code-block:: html+django
 
     {# inc/field.html #}
     {% load widget_tweaks %}
     <div>{{ field|attr:"foo:default_foo" }}</div>
 
-Example usage::
+Example usage:
+
+.. code-block:: html+django
 
     {# my_template.html #}
     {% load widget_tweaks %}

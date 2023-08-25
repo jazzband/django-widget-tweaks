@@ -2,6 +2,34 @@ Changes
 =======
 
 
+1.5.0 (2023-08-25)
+------------------
+
+* Add Django 4.2 support.
+* Add Django 4.1 support.
+* Drop Django 4.0 support.
+* Drop Django 2.2 support.
+* Add Python 3.11 support.
+* Drop Python 3.7 support.
+
+
+1.4.12 (2022-01-13)
+-------------------
+
+* Set minimum required Python version to 3.7.
+* Add better documentation syntax highlighting.
+* Adjust build settings and stop building deprecated universal Python 2 wheels.
+
+
+1.4.11 (2022-01-08)
+-------------------
+
+* Add support for Django 4.0
+* Drop support for Django 3.0 and 3.1
+* Add support for Python 3.10
+* Drop support for Python 3.6
+
+
 1.4.9 (2021-09-02)
 ------------------
 

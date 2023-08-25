@@ -7,3 +7,5 @@ TEMPLATES = [
 ]
 
 SECRET_KEY = "spam-eggs"
+
+USE_TZ = True
