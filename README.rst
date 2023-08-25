@@ -276,6 +276,23 @@ Output:
     </div>
 
 
+Fields with multiple widgets
+============================
+
+Some fields may render as a `MultiWidget`, composed of multiple subwidgets
+(for example, a `ChoiceField` using `RadioSelect`). You can use the same tags
+and filters, but your template code will need to include a for loop for fields
+like this:
+
+.. code-block:: html+django
+
+    {% load widget_tweaks %}
+
+    {% for widget in form.choice %}
+        {{ widget|add_class:"css_class_1 css_class_2" }}
+    {% endfor %}
+
+
 Mixing render_field and filters
 ===============================
 
