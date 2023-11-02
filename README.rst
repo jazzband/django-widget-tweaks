@@ -336,6 +336,86 @@ Example usage:
 With 'rightmost filter wins' rule it wouldn't be possible to override
 ``|attr:"foo:default_foo"`` in main template.
 
+Rendering form error messages
+===============================
+
+This app can render the following form error messages:
+
+1. Field related errors
+2. Non-Field related errors
+3. All form errors - Displays all field and non-field related errors. If related to a specific field the name is dispayed above the error, if the error is a general form error, displays __all__
+
+
+Field related errors
+--------------------
+To render field related errors in your form:
+
+Example:
+
+.. code-block:: html+django
+    
+    {% load widget_tweaks %}
+    {% for error in field.errors %}
+    <span class="text-danger">{{ error }}</span>
+    {% endfor %}
+
+
+
+Example usage:
+
+.. code-block:: html+django
+    
+    {% for field in form.visible_fields %}
+    {{ field }}
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {% for error in field.errors %}
+    <span class="text-danger">{{ error }}</span>
+    {% endfor %}
+    {% endfor %}
+
+
+
+Non-Field related errors
+--------------------
+Render general form errors:
+
+Example:
+
+.. code-block:: html+django
+
+    {% load widget_tweaks %}
+    {% if form.non_field_errors %}
+    <span class="text-danger"> {{ form.non_field_errors  }}</span>
+    {% endif %}
+
+
+Example usage:
+
+.. code-block:: html+django
+
+    {% for field in form.visible_fields %}
+    {{ field }}
+    <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+    {% for error in field.errors %}
+    <span class="text-danger">{{ error }}</span>
+    {% endfor %}
+    {% endfor %}
+
+
+
+All form errors
+--------------------
+Render all form errors:
+
+Example:
+
+.. code-block:: html+django
+
+    {% load widget_tweaks %}
+    {{ form.errors }}
+
+
+
 Contributing
 ============
 
