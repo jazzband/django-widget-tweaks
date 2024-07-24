@@ -13,7 +13,7 @@ setup(
     long_description_content_type="text/x-rst",
     license="MIT license",
     python_requires=">=3.8",
-    requires=["django (>=2.2)"],
+    install_requires=["django (>=2.2)"],
     packages=["widget_tweaks", "widget_tweaks.templatetags"],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
