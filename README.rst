@@ -103,7 +103,6 @@ You can be creative with these variables: e.g. a context processor could
 set a default CSS error class on all fields rendered by
 ``{% render_field %}``.
 
-
 attr
 ----
 Adds or replaces any single html attribute for the form field.
@@ -126,7 +125,6 @@ Examples:
 
     <!-- attributes with double colon Vuejs output: v-bind:class="{active:ValueEnabled}" -->
     {{ form.search_query|attr:"v-bind::class:{active:ValueEnabled}" }}
-
 
 add_class
 ---------
@@ -176,7 +174,6 @@ Example:
 'add_class' filter is just a shortcut for 'append_attr' filter that
 adds values to the 'class' attribute.
 
-
 remove_attr
 -----------
 Removes any single html attribute for the form field.
@@ -189,7 +186,6 @@ Example:
 
     <!-- removes autofocus attribute from field element -->
     {{ form.title|remove_attr:"autofocus" }}
-
 
 add_label_class
 ---------------
@@ -205,7 +201,6 @@ Example:
     <!-- add 2 extra css classes to field label element -->
     {{ form.title|add_label_class:"label_class_1 label_class_2" }}
 
-
 add_error_class
 ---------------
 
@@ -220,7 +215,6 @@ Example:
 
     <!-- add 'error-border' css class on field error -->
     {{ form.title|add_error_class:"error-border" }}
-
 
 add_error_attr
 --------------
@@ -250,7 +244,6 @@ Example:
     <!-- add 'is-required' css class on field required -->
     {{ form.title|add_required_class:"is-required" }}
 
-
 field_type and widget_type
 --------------------------
 
@@ -275,7 +268,6 @@ Output:
         <input id="id_name" type="text" name="name" maxlength="100" />
     </div>
 
-
 Mixing render_field and filters
 ===============================
 
@@ -293,7 +285,6 @@ returns:
 .. code-block:: html+django
 
     <input name="category" placeholder="Profession" readonly="readonly" type="text">
-
 
 Filter chaining
 ===============
@@ -337,17 +328,17 @@ With 'rightmost filter wins' rule it wouldn't be possible to override
 ``|attr:"foo:default_foo"`` in main template.
 
 Rendering form error messages
-===============================
+=============================
 
 This app can render the following form error messages:
 
 1. Field related errors
-2. Non-Field related errors
-3. All form errors - Displays all field and non-field related errors. If related to a specific field the name is dispayed above the error, if the error is a general form error, displays __all__
-
+2. Non-field related errors
+3. All form errors - Displays all field and Non-field related errors. If related to a specific field the name is dispayed above the error, if the error is a general form error, displays __all__
 
 Field related errors
 --------------------
+
 To render field related errors in your form:
 
 Example:
@@ -359,8 +350,6 @@ Example:
     <span class="text-danger">{{ error }}</span>
     {% endfor %}
 
-
-
 Example usage:
 
 .. code-block:: html+django
@@ -373,10 +362,9 @@ Example usage:
     {% endfor %}
     {% endfor %}
 
+Non-field related errors
+------------------------
 
-
-Non-Field related errors
---------------------
 Render general form errors:
 
 Example:
@@ -387,7 +375,6 @@ Example:
     {% if form.non_field_errors %}
     <span class="text-danger"> {{ form.non_field_errors  }}</span>
     {% endif %}
-
 
 Example usage:
 
@@ -401,10 +388,9 @@ Example usage:
     {% endfor %}
     {% endfor %}
 
-
-
 All form errors
---------------------
+---------------
+
 Render all form errors:
 
 Example:
@@ -413,8 +399,6 @@ Example:
 
     {% load widget_tweaks %}
     {{ form.errors }}
-
-
 
 Contributing
 ============
