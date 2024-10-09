@@ -1,6 +1,6 @@
 from unittest import TestCase
 
-from .forms import render_field, render_field_from_tag, render_form, MyForm
+from .forms import render_field, render_choice_field, render_field_from_tag, render_form, MyForm
 
 
 def assertIn(value, obj):
@@ -391,8 +391,8 @@ class RenderFieldTagNonValueAttribute(TestCase):
         assertIn(':class="{active:True}"', res)
 
 
-class ChoiceFieldTest(TestCase):
-    def test_choice(self):
+class SelectFieldTest(TestCase):
+    def test_parent_field(self):
         res = render_field("choice", "attr", "foo:bar")
         assertIn("select", res)
         assertIn('name="choice"', res)
@@ -400,3 +400,21 @@ class ChoiceFieldTest(TestCase):
         assertIn('foo="bar"', res)
         assertIn('<option value="1">one</option>', res)
         assertIn('<option value="2">two</option>', res)
+
+
+class RadioFieldTest(TestCase):
+    def test_first_choice(self):
+        res = render_choice_field("radio", 0, "attr", "foo:bar")
+        assertIn('type="radio"', res)
+        assertIn('name="radio"', res)
+        assertIn('value="option1"', res)
+        assertIn('id="id_radio_0"', res)
+        assertIn('foo="bar"', res)
+        
+    def test_second_choice(self):
+        res = render_choice_field("radio", 1, "attr", "foo:bar")
+        assertIn('type="radio"', res)
+        assertIn('name="radio"', res)
+        assertIn('value="option2"', res)
+        assertIn('id="id_radio_1"', res)
+        assertIn('foo="bar"', res)
