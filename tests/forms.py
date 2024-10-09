@@ -16,6 +16,11 @@ class MyForm(Form):
     with_cls = CharField(widget=TextInput(attrs={"class": "class0"}))
     date = forms.DateField(widget=SelectDateWidget(attrs={"egg": "spam"}))
     choice = forms.ChoiceField(choices=[(1, "one"), (2, "two")])
+    radio = forms.ChoiceField(
+        label="Radio Input",
+        choices=[("option1", "Option 1"), ("option2", "Option 2")],
+        widget=forms.RadioSelect,
+    )
 
 
 def render_form(text, form=None, **context_args):
