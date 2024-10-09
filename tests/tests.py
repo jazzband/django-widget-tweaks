@@ -389,3 +389,14 @@ class RenderFieldTagNonValueAttribute(TestCase):
     def test_field_double_colon_missing(self):
         res = render_form('{{ form.simple|attr:"::class:{active:True}" }}')
         assertIn(':class="{active:True}"', res)
+
+
+class ChoiceFieldTest(TestCase):
+    def test_choice(self):
+        res = render_field("choice", "attr", "foo:bar")
+        assertIn("select", res)
+        assertIn('name="choice"', res)
+        assertIn('id="id_choice"', res)
+        assertIn('foo="bar"', res)
+        assertIn('<option value="1">one</option>', res)
+        assertIn('<option value="2">two</option>', res)

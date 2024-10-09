@@ -24,6 +24,20 @@ def _process_field_attributes(field, attr, process):
     attribute = params[0].replace("::", ":")
     value = params[1] if len(params) == 2 else True
     field = copy(field)
+
+    if not hasattr(field, "as_widget"):
+        old_tag = field.tag
+
+        def tag(self):  # pylint: disable=unused-argument
+            attrs = self.data["attrs"]
+            process(self.parent_widget, attrs, attribute, value)
+            html = old_tag()
+            self.tag = old_tag
+            return html
+
+        field.tag = types.MethodType(tag, field)
+        return field
+
     # decorate field.as_widget method with updated attributes
     old_as_widget = field.as_widget
 
