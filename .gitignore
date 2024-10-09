@@ -54,3 +54,6 @@ coverage.xml
 docs/_build/
 
 .idea
+
+# VSCode settings
+.vscode/

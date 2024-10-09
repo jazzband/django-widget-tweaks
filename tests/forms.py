@@ -15,6 +15,12 @@ class MyForm(Form):
     with_attrs = CharField(widget=TextInput(attrs={"foo": "baz", "egg": "spam"}))
     with_cls = CharField(widget=TextInput(attrs={"class": "class0"}))
     date = forms.DateField(widget=SelectDateWidget(attrs={"egg": "spam"}))
+    choice = forms.ChoiceField(choices=[(1, "one"), (2, "two")])
+    radio = forms.ChoiceField(
+        label="Radio Input",
+        choices=[("option1", "Option 1"), ("option2", "Option 2")],
+        widget=forms.RadioSelect,
+    )
 
 
 def render_form(text, form=None, **context_args):
@@ -43,6 +49,31 @@ def render_field(field, template_filter, params, *args, **kwargs):
     filters.extend(zip(args[::2], args[1::2]))
     filter_strings = ['|%s:"%s"' % (f[0], f[1]) for f in filters]
     render_field_str = "{{ form.%s%s }}" % (field, "".join(filter_strings))
+    return render_form(render_field_str, **kwargs)
+
+
+def render_choice_field(
+    field, choice_no, template_filter, params, *args, **kwargs
+):
+    """
+    Renders ``field`` of MyForm with choice_no and filter ``template_filter`` 
+    applied.
+    ``params`` are filter arguments.
+
+    If you want to apply several filters (in a chain),
+    pass extra ``template_filter`` and ``params`` as positional arguments.
+
+    In order to use custom form, pass form instance as ``form``
+    keyword argument.
+    """
+    filters = [(template_filter, params)]
+    filters.extend(zip(args[::2], args[1::2]))
+    filter_strings = ['|%s:"%s"' % (f[0], f[1]) for f in filters]
+    render_field_str = "{{ form.%s.%s%s }}" % (
+        field,
+        choice_no,
+        "".join(filter_strings),
+    )
     return render_form(render_field_str, **kwargs)
 
 
