@@ -28,10 +28,10 @@ def _process_field_attributes(field, attr, process):
     if not hasattr(field, "as_widget"):
         old_tag = field.tag
 
-        def tag(self):  # pylint: disable=unused-argument
+        def tag(self, wrap_label=False):  # pylint: disable=unused-argument
             attrs = self.data["attrs"]
             process(self.parent_widget, attrs, attribute, value)
-            html = old_tag()
+            html = old_tag(wrap_label=False)
             self.tag = old_tag
             return html
 

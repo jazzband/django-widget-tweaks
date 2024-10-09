@@ -52,6 +52,32 @@ def render_field(field, template_filter, params, *args, **kwargs):
     return render_form(render_field_str, **kwargs)
 
 
+def render_choice_field(
+    field, choice_no, template_filter, params, *args, **kwargs
+):
+    """
+    Renders ``field`` of MyForm with choice_no and filter ``template_filter`` 
+    applied.
+    ``params`` are filter arguments.
+
+    If you want to apply several filters (in a chain),
+    pass extra ``template_filter`` and ``params`` as positional arguments.
+
+    In order to use custom form, pass form instance as ``form``
+    keyword argument.
+    """
+    filters = [(template_filter, params)]
+    filters.extend(zip(args[::2], args[1::2]))
+    filter_strings = ['|%s:"%s"' % (f[0], f[1]) for f in filters]
+    render_field_str = "{{ form.%s.%s%s }}" % (
+        field,
+        choice_no,
+        "".join(filter_strings),
+    )
+    print(render_field_str)
+    return render_form(render_field_str, **kwargs)
+
+
 def render_field_from_tag(field, *attributes):
     """
     Renders MyForm's field ``field`` with attributes passed
