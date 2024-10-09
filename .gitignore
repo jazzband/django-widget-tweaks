@@ -55,5 +55,5 @@ docs/_build/
 
 .idea
 
-# ingore VSCode settings
+# VSCode settings
 .vscode/
