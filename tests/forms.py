@@ -15,6 +15,7 @@ class MyForm(Form):
     with_attrs = CharField(widget=TextInput(attrs={"foo": "baz", "egg": "spam"}))
     with_cls = CharField(widget=TextInput(attrs={"class": "class0"}))
     date = forms.DateField(widget=SelectDateWidget(attrs={"egg": "spam"}))
+    choice = forms.ChoiceField(choices=[(1, "one"), (2, "two")])
 
 
 def render_form(text, form=None, **context_args):
