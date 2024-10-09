@@ -74,7 +74,6 @@ def render_choice_field(
         choice_no,
         "".join(filter_strings),
     )
-    print(render_field_str)
     return render_form(render_field_str, **kwargs)
 
 
