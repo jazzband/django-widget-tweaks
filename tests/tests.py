@@ -401,6 +401,16 @@ class SelectFieldTest(TestCase):
         assertIn('<option value="1">one</option>', res)
         assertIn('<option value="2">two</option>', res)
 
+    def test_rendering_id_class(self):
+        res = render_form(
+            '{% render_field form.choice id="id_1" class="c_1" %}'
+            '{% render_field form.choice id="id_2" class="c_2" %}'
+        )
+        self.assertEqual(res.count("id_1"), 1)
+        self.assertEqual(res.count("id_2"), 1)
+        self.assertEqual(res.count("c_1"), 1)
+        self.assertEqual(res.count("c_2"), 1)
+
 
 class RadioFieldTest(TestCase):
     def test_first_choice(self):
@@ -410,7 +420,7 @@ class RadioFieldTest(TestCase):
         assertIn('value="option1"', res)
         assertIn('id="id_radio_0"', res)
         assertIn('foo="bar"', res)
-        
+
     def test_second_choice(self):
         res = render_choice_field("radio", 1, "attr", "foo:bar")
         assertIn('type="radio"', res)
@@ -418,3 +428,13 @@ class RadioFieldTest(TestCase):
         assertIn('value="option2"', res)
         assertIn('id="id_radio_1"', res)
         assertIn('foo="bar"', res)
+
+    def test_rendering_id_class(self):
+        res = render_form(
+            '{% render_field form.radio.0 id="id_1" class="c_1" %}'
+            '{% render_field form.radio.1 id="id_2" class="c_2" %}'
+        )
+        self.assertEqual(res.count("id_1"), 1)
+        self.assertEqual(res.count("id_2"), 1)
+        self.assertEqual(res.count("c_1"), 1)
+        self.assertEqual(res.count("c_2"), 1)
