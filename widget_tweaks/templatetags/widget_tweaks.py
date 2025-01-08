@@ -225,10 +225,15 @@ class FieldAttributeNode(Node):
             else:
                 attr_dict[k] = v.resolve(context)
         for k, v in attr_dict.items():
-            if k == "type":
-                bounded_field.field.widget.input_type = v
+            if v:
+                if isinstance(v, bool):
+                    bounded_field = set_attr(bounded_field, f"{k}")
+                if k == "type":
+                    bounded_field.field.widget.input_type = v
+                else:
+                    bounded_field = set_attr(bounded_field, f"{k}:{v}")
             else:
-                bounded_field = set_attr(bounded_field, f"{k}:{v}")
+                bounded_field = remove_attr(bounded_field, k)
         for k, v in self.append_attrs:
             bounded_field = append_attr(bounded_field, f"{k}:{v.resolve(context)}")
         return str(bounded_field)
