@@ -1,1 +1,23 @@
-repos: []
+repos:
+- repo: https://github.com/adamchainz/django-upgrade
+  rev: 1.23.1
+  hooks:
+    - id: django-upgrade
+      args: [--target-version, "4.2"]
+
+- repo: https://github.com/asottile/pyupgrade
+  rev: v3.19.1
+  hooks:
+    - id: pyupgrade
+      args: [--py39-plus]
+
+- repo: https://github.com/pre-commit/pre-commit-hooks
+  rev: v5.0.0
+  hooks:
+    - id: check-executables-have-shebangs
+    - id: check-illegal-windows-names
+    - id: check-merge-conflict
+    - id: end-of-file-fixer
+    - id: fix-byte-order-marker
+    - id: mixed-line-ending
+    - id: trailing-whitespace
