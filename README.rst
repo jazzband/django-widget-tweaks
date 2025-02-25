@@ -15,7 +15,7 @@ django-widget-tweaks
    :alt: GitHub Actions
 
 .. image:: https://codecov.io/gh/jazzband/django-widget-tweaks/branch/master/graph/badge.svg
-   :target: https://codecov.io/gh/jazzband/django-widget-tweaks
+   :target: https://app.codecov.io/gh/jazzband/django-widget-tweaks
    :alt: Coverage
 
 Tweak the form field rendering in templates, not in python-level
@@ -144,7 +144,7 @@ Example:
 set_data
 --------
 
-Sets HTML5 data attribute ( http://ejohn.org/blog/html-5-data-attributes/ ).
+Sets HTML5 data attribute ( https://johnresig.com/blog/html-5-data-attributes/ ).
 Useful for unobtrusive javascript. It is just a shortcut for 'attr' filter
 that prepends attribute names with 'data-' string.
 
@@ -412,7 +412,7 @@ do not hesitate to contact me, fire an issue or send a pull request.
 Testing
 -------
 
-Make sure you have `tox <http://tox.testrun.org/>`_ installed, then type
+Make sure you have `tox <https://tox.wiki/>`_ installed, then type
 
 ::
 
