@@ -35,13 +35,14 @@ jobs:
             django-version: 'main'
             experimental: true
         exclude:
-          - python-version: '3.12'
+          - python-version: '3.13'
             django-version: '4.2'
           - python-version: '3.9'
             django-version: '5.0'
           - python-version: '3.9'
             django-version: '5.1'
-
+          - python-version: '3.9'
+            django-version: '5.2'
     steps:
     - uses: actions/checkout@v4
 
@@ -52,8 +53,9 @@ jobs:
 
     - name: Get pip cache dir
       id: pip-cache
+      shell: bash
       run: |
-        echo "::set-output name=dir::$(pip cache dir)"
+        echo "dir=$(pip cache dir)" >> $GITHUB_OUTPUT
 
     - name: Cache
       uses: actions/cache@v4
