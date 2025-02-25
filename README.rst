@@ -344,7 +344,7 @@ To render field related errors in your form:
 Example:
 
 .. code-block:: html+django
-    
+
     {% load widget_tweaks %}
     {% for error in field.errors %}
     <span class="text-danger">{{ error }}</span>
@@ -353,7 +353,7 @@ Example:
 Example usage:
 
 .. code-block:: html+django
-    
+
     {% for field in form.visible_fields %}
     {{ field }}
     <label for="{{ field.id_for_label }}">{{ field.label }}</label>

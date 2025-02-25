@@ -63,7 +63,7 @@ Unreleased
 
 * Feature remove attribute from field
 * Added documentation for remove_attr feature
-* Reformat code with black for PEP8 compatibility 
+* Reformat code with black for PEP8 compatibility
 * More consistent tox configuration
 * adding a new templatetag, unittest and documentation
 * Deprecate Python 2.7 support
