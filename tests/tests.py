@@ -340,7 +340,7 @@ class RenderFieldTagFieldReuseTest(TestCase):
 
 
 class RenderFieldTagUseTemplateVariableTest(TestCase):
-    def test_use_template_variable_in_parametrs(self):
+    def test_use_template_variable_in_parameters(self):
         res = render_form(
             '{% render_field form.with_attrs egg+="pahaz" placeholder=form.with_attrs.label %}'
         )
