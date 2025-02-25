@@ -4,10 +4,13 @@ Changes
 Unreleased
 ------------------
 
-* Add Django 5.0 support.
-* Add Django 5.1 support.
-* Add Python 3.12 support.
-
+* Drop support for Django 4.1
+* Drop support for Python 3.8
+* Add Django 5.0 support
+* Add Django 5.1 support
+* Add Python 3.12 support
+* Add Python 3.13 support
+* Add PyPy 3.11 support
 
 1.5.0 (2023-08-25)
 ------------------
