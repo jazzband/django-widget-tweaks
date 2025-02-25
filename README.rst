@@ -334,7 +334,7 @@ This app can render the following form error messages:
 
 1. Field related errors
 2. Non-field related errors
-3. All form errors - Displays all field and Non-field related errors. If related to a specific field the name is dispayed above the error, if the error is a general form error, displays __all__
+3. All form errors - Displays all field and Non-field related errors. If related to a specific field the name is displayed above the error, if the error is a general form error, displays __all__
 
 Field related errors
 --------------------
