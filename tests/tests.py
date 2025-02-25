@@ -4,11 +4,11 @@ from .forms import render_field, render_field_from_tag, render_form, MyForm
 
 
 def assertIn(value, obj):
-    assert value in obj, "%s not in %s" % (value, obj)
+    assert value in obj, f"{value} not in {obj}"
 
 
 def assertNotIn(value, obj):
-    assert value not in obj, "%s in %s" % (value, obj)
+    assert value not in obj, f"{value} in {obj}"
 
 
 # ===============================

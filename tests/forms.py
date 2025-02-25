@@ -41,8 +41,8 @@ def render_field(field, template_filter, params, *args, **kwargs):
     """
     filters = [(template_filter, params)]
     filters.extend(zip(args[::2], args[1::2]))
-    filter_strings = ['|%s:"%s"' % (f[0], f[1]) for f in filters]
-    render_field_str = "{{ form.%s%s }}" % (field, "".join(filter_strings))
+    filter_strings = [f'|{f[0]}:"{f[1]}"' for f in filters]
+    render_field_str = "{{{{ form.{}{} }}}}".format(field, "".join(filter_strings))
     return render_form(render_field_str, **kwargs)
 
 
