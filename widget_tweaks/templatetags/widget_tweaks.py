@@ -19,7 +19,7 @@ def _process_field_attributes(field, attr, process):
     # split attribute name and value from 'attr:value' string
     # params = attr.split(':', 1)
     # attribute = params[0]
-    params = re.split(r"(?<!:):(?!:)", attr, 1)
+    params = re.split(r"(?<!:):(?!:)", attr, maxsplit=1)
     # attribute = params[0]
     attribute = params[0].replace("::", ":")
     value = params[1] if len(params) == 2 else True
