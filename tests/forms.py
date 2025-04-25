@@ -66,8 +66,8 @@ def render_choice_field(field, choice_no, template_filter, params, *args, **kwar
     """
     filters = [(template_filter, params)]
     filters.extend(zip(args[::2], args[1::2]))
-    filter_strings = ['|%s:"%s"' % (f[0], f[1]) for f in filters]
-    render_field_str = "{{ form.%s.%s%s }}" % (
+    filter_strings = [f'|{f[0]}:"{f[1]}"' for f in filters]
+    render_field_str = "{{{{ form.{}.{}{} }}}}".format(
         field,
         choice_no,
         "".join(filter_strings),
