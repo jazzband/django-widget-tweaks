@@ -1,7 +1,7 @@
 Changes
 =======
 
-Unreleased
+1.5.1 (2025-04-25)
 ------------------
 
 * Drop support for Django 4.1
@@ -11,6 +11,7 @@ Unreleased
 * Add Python 3.12 support
 * Add Python 3.13 support
 * Add PyPy 3.11 support
+* See GitHub releases for further release notes: https://github.com/jazzband/django-widget-tweaks/releases
 
 1.5.0 (2023-08-25)
 ------------------
