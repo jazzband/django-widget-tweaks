@@ -229,11 +229,25 @@ class FieldAttributeNode(Node):
             bounded_field = append_attr(
                 bounded_field, f"class:{context['WIDGET_REQUIRED_CLASS']}"
             )
+        attr_dict = {}
         for k, v in self.set_attrs:
-            if k == "type":
-                bounded_field.field.widget.input_type = v.resolve(context)
+            if k == "attr_dict":
+                resolved_dict = v.resolve(context)
+                if not isinstance(resolved_dict, dict):
+                    raise ValueError(f"{k} must be of type dict.")
+                attr_dict.update(resolved_dict)
             else:
-                bounded_field = set_attr(bounded_field, f"{k}:{v.resolve(context)}")
+                attr_dict[k] = v.resolve(context)
+        for k, v in attr_dict.items():
+            if v:
+                if isinstance(v, bool):
+                    bounded_field = set_attr(bounded_field, f"{k}")
+                if k == "type":
+                    bounded_field.field.widget.input_type = v
+                else:
+                    bounded_field = set_attr(bounded_field, f"{k}:{v}")
+            else:
+                bounded_field = remove_attr(bounded_field, k)
         for k, v in self.append_attrs:
             bounded_field = append_attr(bounded_field, f"{k}:{v.resolve(context)}")
         return str(bounded_field)
