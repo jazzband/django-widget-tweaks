@@ -52,11 +52,9 @@ def render_field(field, template_filter, params, *args, **kwargs):
     return render_form(render_field_str, **kwargs)
 
 
-def render_choice_field(
-    field, choice_no, template_filter, params, *args, **kwargs
-):
+def render_choice_field(field, choice_no, template_filter, params, *args, **kwargs):
     """
-    Renders ``field`` of MyForm with choice_no and filter ``template_filter`` 
+    Renders ``field`` of MyForm with choice_no and filter ``template_filter``
     applied.
     ``params`` are filter arguments.
 

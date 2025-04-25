@@ -1,6 +1,12 @@
 from unittest import TestCase
 
-from .forms import render_field, render_choice_field, render_field_from_tag, render_form, MyForm
+from .forms import (
+    render_field,
+    render_choice_field,
+    render_field_from_tag,
+    render_form,
+    MyForm,
+)
 
 
 def assertIn(value, obj):
