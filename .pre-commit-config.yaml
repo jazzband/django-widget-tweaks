@@ -1,18 +1,18 @@
 repos:
 - repo: https://github.com/adamchainz/django-upgrade
-  rev: 1.24.0
+  rev: 1.29.0
   hooks:
     - id: django-upgrade
       args: [--target-version, "4.2"]
 
 - repo: https://github.com/asottile/pyupgrade
-  rev: v3.19.1
+  rev: v3.20.0
   hooks:
     - id: pyupgrade
       args: [--py39-plus]
 
 - repo: https://github.com/pre-commit/pre-commit-hooks
-  rev: v5.0.0
+  rev: v6.0.0
   hooks:
     - id: check-executables-have-shebangs
     - id: check-illegal-windows-names
