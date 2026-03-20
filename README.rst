@@ -103,6 +103,42 @@ You can be creative with these variables: e.g. a context processor could
 set a default CSS error class on all fields rendered by
 ``{% render_field %}``.
 
+In addition, it is possible to dynamically set attributes using a variable of type dict from context 
+and setting it equal to ``attr_dict``. The content of ``attr_dict`` its order around explicitly named 
+attributes matters; it is possible to set a default attribute that will be overwritten by ``attr_dict`` 
+by positioning it to the left, or conversely to have an attribute always overwrite one in ``attr_dict`` 
+by positioning it to the right.
+
+Examples:
+
+Let context_dict_var be:
+
+.. code-block:: html+django
+
+    context_dict_var = {"type":"text", id="my_username_id", placeholder="Login"}
+
+The following line:
+.. code-block:: html+django
+
+    {% render_field form.field attr_dict=context_dict %}
+
+returns:
+
+.. code-block:: html+django
+
+    <input type="text" id="my_field_id" placeholder="Input here" />
+
+The following line:
+.. code-block:: html+django
+
+    {% render_field form.field id="default_id" label="default_label" attr_dict=context_dict placeholder="Overwrite" %}
+
+returns:
+
+.. code-block:: html+django
+
+    <input type="text" id="default_id" label="default_label" placeholder="Overwrite" />
+
 attr
 ----
 Adds or replaces any single html attribute for the form field.
