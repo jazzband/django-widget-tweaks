@@ -159,9 +159,11 @@ ATTRIBUTE_RE = re.compile(
         \+?=
     )
     (?P<value>
-    ['"]? # start quote
-        [^"']*
-    ['"]? # end quote
+        ["][^"]*["]       # Double-quoted string
+        |
+        [\'][^\']*[\']    # Single-quoted string
+        |
+        [^\s"'=]+         # Unquoted value
     )
 """,
     re.VERBOSE | re.UNICODE,

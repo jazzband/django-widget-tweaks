@@ -397,6 +397,53 @@ class RenderFieldTagNonValueAttribute(TestCase):
         assertIn(':class="{active:True}"', res)
 
 
+class RenderFieldTagComplexAttributeValuesTest(TestCase):
+    """Tests for complex attribute values with quotes and braces (gh-160, gh-153)."""
+
+    def test_double_colon_with_curly_braces(self):
+        # ::class="{'is-invalid': isInvalid}" should not raise TemplateSyntaxError
+        res = render_field_from_tag(
+            "simple",
+            '::class="{\'is-invalid\': isInvalid}"',
+        )
+        self.assertIn('is-invalid', res)
+        self.assertIn('class', res)
+
+    def test_alpine_x_bind_with_ternary(self):
+        # x-bind::type="show ? 'text' : 'password'" should not raise
+        res = render_field_from_tag(
+            "simple",
+            'x-bind::type="show ? \'text\' : \'password\'"',
+        )
+        self.assertIn('show ?', res)
+        self.assertNotIn('error', res.lower())
+
+    def test_single_quoted_value_with_double_quotes_inside(self):
+        # data-config='{"key": "value"}' should not raise
+        res = render_field_from_tag(
+            "simple",
+            "data-config='{\"key\": \"value\"}'",
+        )
+        self.assertIn('key', res)
+        self.assertNotIn('error', res.lower())
+
+    def test_simple_standard_attributes_still_work(self):
+        res = render_field_from_tag("simple", 'class="form-control"')
+        self.assertIn('class="form-control"', res)
+
+    def test_appending_attribute_with_complex_value(self):
+        res = render_field_from_tag("simple", 'class+="btn btn-primary"')
+        self.assertIn('class="btn btn-primary"', res)
+
+    def test_simple_standard_attributes_still_work(self):
+        res = render_field_from_tag("simple", 'class="form-control"')
+        self.assertIn('class="form-control"', res)
+
+    def test_appending_attribute_with_complex_value(self):
+        res = render_field_from_tag("simple", 'class+="btn btn-primary"')
+        self.assertIn('class="btn btn-primary"', res)
+
+
 class SelectFieldTest(TestCase):
     def test_parent_field(self):
         res = render_field("choice", "attr", "foo:bar")
