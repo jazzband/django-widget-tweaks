@@ -23,6 +23,13 @@ def _process_field_attributes(field, attr, process):
     # attribute = params[0]
     attribute = params[0].replace("::", ":")
     value = params[1] if len(params) == 2 else True
+    return _process_field_attribute_value(field, attribute, value, process)
+
+
+def _process_field_attribute_value(field, attribute, value, process):
+    # mirrors silence_without_field's guard, needed here since render_field calls this directly
+    if not field:
+        return ""
     field = copy(field)
 
     if not hasattr(field, "as_widget"):
@@ -55,13 +62,25 @@ def _process_field_attributes(field, attr, process):
     return field
 
 
+def _set_attr_process(
+    widget, attrs, attribute, value
+):  # pylint: disable=unused-argument
+    attrs[attribute] = value
+
+
+def _append_attr_process(widget, attrs, attribute, value):
+    if attrs.get(attribute):
+        attrs[attribute] += " " + value
+    elif widget.attrs.get(attribute):
+        attrs[attribute] = widget.attrs[attribute] + " " + value
+    else:
+        attrs[attribute] = value
+
+
 @register.filter("attr")
 @silence_without_field
 def set_attr(field, attr):
-    def process(widget, attrs, attribute, value):  # pylint: disable=unused-argument
-        attrs[attribute] = value
-
-    return _process_field_attributes(field, attr, process)
+    return _process_field_attributes(field, attr, _set_attr_process)
 
 
 @register.filter("add_error_attr")
@@ -75,15 +94,7 @@ def add_error_attr(field, attr):
 @register.filter("append_attr")
 @silence_without_field
 def append_attr(field, attr):
-    def process(widget, attrs, attribute, value):
-        if attrs.get(attribute):
-            attrs[attribute] += " " + value
-        elif widget.attrs.get(attribute):
-            attrs[attribute] = widget.attrs[attribute] + " " + value
-        else:
-            attrs[attribute] = value
-
-    return _process_field_attributes(field, attr, process)
+    return _process_field_attributes(field, attr, _append_attr_process)
 
 
 @register.filter("add_class")
@@ -233,9 +244,20 @@ class FieldAttributeNode(Node):
             if k == "type":
                 bounded_field.field.widget.input_type = v.resolve(context)
             else:
-                bounded_field = set_attr(bounded_field, f"{k}:{v.resolve(context)}")
+                # pass the resolved value through as-is, not stringified, so e.g. checked=False stays a bool
+                bounded_field = _process_field_attribute_value(
+                    bounded_field,
+                    k.replace("::", ":"),
+                    v.resolve(context),
+                    _set_attr_process,
+                )
         for k, v in self.append_attrs:
-            bounded_field = append_attr(bounded_field, f"{k}:{v.resolve(context)}")
+            bounded_field = _process_field_attribute_value(
+                bounded_field,
+                k.replace("::", ":"),
+                v.resolve(context),
+                _append_attr_process,
+            )
         return str(bounded_field)
 
 

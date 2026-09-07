@@ -354,6 +354,21 @@ class RenderFieldTagUseTemplateVariableTest(TestCase):
         assertIn('placeholder="With attrs"', res)
 
 
+class RenderFieldTagBooleanAttributeTest(TestCase):
+    def test_checked_true_renders_bare_attribute(self):
+        res = render_form(
+            "{% render_field form.flag checked=is_checked %}", is_checked=True
+        )
+        assertIn("checked", res)
+        assertNotIn('checked="True"', res)
+
+    def test_checked_false_omits_attribute(self):
+        res = render_form(
+            "{% render_field form.flag checked=is_checked %}", is_checked=False
+        )
+        assertNotIn("checked", res)
+
+
 class RenderFieldFilter_field_type_widget_type_Test(TestCase):
     def test_field_type_widget_type_rendering_simple(self):
         res = render_form(
