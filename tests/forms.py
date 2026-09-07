@@ -12,6 +12,7 @@ class MyForm(Form):
     """
 
     simple = CharField()
+    flag = forms.BooleanField(required=False)
     with_attrs = CharField(widget=TextInput(attrs={"foo": "baz", "egg": "spam"}))
     with_cls = CharField(widget=TextInput(attrs={"class": "class0"}))
     date = forms.DateField(widget=SelectDateWidget(attrs={"egg": "spam"}))
