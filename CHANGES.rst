@@ -1,6 +1,11 @@
 Changes
 =======
 
+Unreleased
+----------
+
+* Add Django 6.1 support
+
 1.5.1 (2025-04-25)
 ------------------
 
